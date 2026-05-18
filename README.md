@@ -73,3 +73,4 @@ paraphrase-multilingual-MiniLM-L12-v2 (Hugging Face)
 ✅ Très bonne précision
 ---
 Site indépendant — Culture cosmique et ésotérique
+Le Mot Astral
