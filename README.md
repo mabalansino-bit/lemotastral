@@ -74,3 +74,23 @@ paraphrase-multilingual-MiniLM-L12-v2 (Hugging Face)
 ---
 Site indépendant — Culture cosmique et ésotérique
 Le Mot Astral
+Le Mot Astral V2
+Version V2 intégrant :
+mot mystère matérialisé par points ;
+catégorie visible ;
+définition à barres ;
+révélation de mots exacts ;
+indices proches en violet ;
+lune comme progression ;
+règles actualisées ;
+footer « inspiré librement de Pédantix » ;
+page résultats plus compétitive par signes astrologiques.
+Déploiement
+Remplacer les fichiers de l’ancien dépôt GitHub par ceux-ci.
+Faire `Commit changes`.
+Vercel redéploiera automatiquement.
+Pour tester localement :
+```bash
+npm install
+npm run dev
+```
