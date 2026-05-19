@@ -94,3 +94,4 @@ Pour tester localement :
 npm install
 npm run dev
 ```
+V2 en cours de déploiement
