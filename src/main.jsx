@@ -3,18 +3,18 @@ import { createRoot } from "react-dom/client";
 import "./styles.css";
 
 const ZODIAC_SIGNS = [
-  { name: "Bélier", plural: "les Béliers", symbol: "♈" },
-  { name: "Taureau", plural: "les Taureaux", symbol: "♉" },
-  { name: "Gémeaux", plural: "les Gémeaux", symbol: "♊" },
-  { name: "Cancer", plural: "les Cancers", symbol: "♋" },
-  { name: "Lion", plural: "les Lions", symbol: "♌" },
-  { name: "Vierge", plural: "les Vierges", symbol: "♍" },
-  { name: "Balance", plural: "les Balances", symbol: "♎" },
-  { name: "Scorpion", plural: "les Scorpions", symbol: "♏" },
-  { name: "Sagittaire", plural: "les Sagittaires", symbol: "♐" },
-  { name: "Capricorne", plural: "les Capricornes", symbol: "♑" },
-  { name: "Verseau", plural: "les Verseaux", symbol: "♒" },
-  { name: "Poissons", plural: "les Poissons", symbol: "♓" },
+  { name: "Bélier", plural: "les Béliers", symbol: "♈︎" },
+  { name: "Taureau", plural: "les Taureaux", symbol: "♉︎" },
+  { name: "Gémeaux", plural: "les Gémeaux", symbol: "♊︎" },
+  { name: "Cancer", plural: "les Cancers", symbol: "♋︎" },
+  { name: "Lion", plural: "les Lions", symbol: "♌︎" },
+  { name: "Vierge", plural: "les Vierges", symbol: "♍︎" },
+  { name: "Balance", plural: "les Balances", symbol: "♎︎" },
+  { name: "Scorpion", plural: "les Scorpions", symbol: "♏︎" },
+  { name: "Sagittaire", plural: "les Sagittaires", symbol: "♐︎" },
+  { name: "Capricorne", plural: "les Capricornes", symbol: "♑︎" },
+  { name: "Verseau", plural: "les Verseaux", symbol: "♒︎" },
+  { name: "Poissons", plural: "les Poissons", symbol: "♓︎" },
 ];
 
 const RESULT_HISTORY = [
@@ -23,8 +23,11 @@ const RESULT_HISTORY = [
   { date: "19 mai 2026", mot: "Éclipse", sign: ZODIAC_SIGNS[11] },
   { date: "18 mai 2026", mot: "Solstice", sign: ZODIAC_SIGNS[4] },
   { date: "17 mai 2026", mot: "Rituel", sign: ZODIAC_SIGNS[9] },
+  { date: "16 mai 2026", mot: "Présage", sign: ZODIAC_SIGNS[2] },
+  { date: "15 mai 2026", mot: "Harmonie", sign: ZODIAC_SIGNS[6] },
 ];
 
+// Définitions formulées dans un style dictionnaire, à partir de formulations de type Wiktionnaire, puis adaptées pour le gameplay.
 const DAILY_WORDS = [
   { word: "oracle", category: "pratique divinatoire", grammar: "Nom masculin", definition: "Réponse ou message attribué à une puissance divine consultée pour éclairer l'avenir." },
   { word: "aura", category: "énergie subtile", grammar: "Nom féminin", definition: "Rayonnement supposé entourer un être vivant, parfois associé à son état émotionnel ou spirituel." },
@@ -198,7 +201,7 @@ function Home(){
         <div className="mystery-dots" aria-label="Mot mystère">
           {Array.from(word).map((letter,i)=><i key={i}>{won ? letter.toUpperCase() : ""}</i>)}
         </div>
-        <p className="definition-text"><span className="grammar-visible">{daily.grammar}</span> — {renderDefinition()}</p>
+        <p className="definition-text"><span className={won ? "grammar-revealed" : "def-mask v6bar grammar-bar"}>{won ? daily.grammar : "████████"}</span> — {renderDefinition()}</p>
       </div>
       <section className={`oracle-wrap ${won ? "is-won" : ""}`} style={{"--progress":progress}}>
         <div className="progress-ring" aria-hidden="true" />
