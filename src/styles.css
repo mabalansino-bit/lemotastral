@@ -1,182 +1,95 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@400;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#03030a;
+  --gold:#d4a64e;
+  --gold2:#f4d892;
+  --violet:#8d76d8;
+  --violet2:#c7b5ff;
+  --text:#f7efd9;
+  --ink:#120b20;
+}
+html,body{min-height:100%}
 body{
-margin:0;
-background:
-radial-gradient(circle at top,#34105a 0%,#07030f 40%),
-#05020b;
-color:#f3dfb0;
-font-family:Inter,sans-serif;
-overflow-x:hidden;
+  font-family:'Cinzel',serif;
+  color:var(--text);
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 50% 4%, rgba(197,172,255,.16), transparent 28%),
+    radial-gradient(circle at 52% 42%, rgba(212,166,78,.16), transparent 34%),
+    radial-gradient(circle at 15% 82%, rgba(255,185,70,.08), transparent 26%),
+    radial-gradient(circle at 86% 76%, rgba(159,126,230,.12), transparent 28%),
+    linear-gradient(180deg,#070617 0%,#03030b 72%,#000 100%);
 }
-.app{
-max-width:820px;
-margin:auto;
-padding:20px;
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.84) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(244,216,146,.56) 0 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(199,181,255,.45) 0 1px, transparent 1.4px);
+  background-size:97px 83px,173px 149px,131px 97px;
+  background-position:0 0,37px 61px,73px 22px;
+  opacity:.22;
 }
-.menu{
-display:flex;
-justify-content:center;
-gap:24px;
-padding:20px;
-border:1px solid rgba(255,215,140,.2);
-border-radius:0 0 30px 30px;
-background:rgba(0,0,0,.25);
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 24% at 12% 16%, rgba(212,166,78,.09), transparent 62%),
+    radial-gradient(ellipse 60% 20% at 88% 12%, rgba(199,181,255,.10), transparent 60%),
+    radial-gradient(ellipse at center, transparent 0%, transparent 58%, rgba(0,0,0,.72) 100%);
 }
-.menu span{
-font-family:Cinzel,serif;
-}
-.winner{
-display:flex;
-gap:18px;
-align-items:center;
-margin-top:30px;
-padding:22px;
-border-radius:28px;
-border:1px solid rgba(255,215,140,.2);
-background:rgba(44,15,80,.2);
-}
-.sign{
-font-size:44px;
-color:#bb8cff;
-}
-h1{
-font-family:Cinzel,serif;
-text-align:center;
-font-size:72px;
-margin:40px 0 10px;
-letter-spacing:4px;
-}
-.planets{
-display:flex;
-justify-content:center;
-gap:18px;
-margin-bottom:25px;
-}
-.planets span{
-width:12px;height:12px;border-radius:50%;
-background:#cba5ff;
-box-shadow:0 0 10px #a96eff;
-}
-.oracleTitle{
-text-align:center;
-font-family:Cinzel,serif;
-font-size:28px;
-margin-bottom:20px;
-}
-.oracleTitle small{
-display:block;
-font-family:Inter,sans-serif;
-font-size:15px;
-margin-top:10px;
-color:#d4bfff;
-}
-.search{
-display:grid;
-grid-template-columns:1fr auto;
-gap:12px;
-}
-.search input{
-padding:18px;
-border-radius:20px;
-background:#12081f;
-border:1px solid rgba(255,215,140,.2);
-color:white;
-}
-.search button{
-padding:18px 24px;
-border-radius:20px;
-background:linear-gradient(135deg,#5d2f96,#8d56d6);
-border:none;
-color:#f3dfb0;
-font-weight:bold;
-}
-.letters{
-display:flex;
-justify-content:center;
-gap:14px;
-margin:30px 0;
-}
-.letters div{
-width:18px;height:18px;border-radius:50%;
-background:#e7d4ff;
-}
-.definition{
-padding:30px;
-border-radius:30px;
-border:1px solid rgba(255,215,140,.2);
-background:rgba(7,4,20,.8);
-margin-bottom:40px;
-overflow-wrap:anywhere;
-}
-.definition h2{
-font-family:Cinzel,serif;
-text-align:center;
-}
-.definition p{
-line-height:2;
-font-size:22px;
-text-align:center;
-}
-.hidden{
-background:#6f46ab;
-color:transparent;
-border-radius:10px;
-padding:0 12px;
-}
-.moonZone{
-position:relative;
-height:420px;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-.orbit{
-position:absolute;
-border-radius:50%;
-border:1px solid rgba(255,215,140,.2);
-animation:spin linear infinite;
-}
-.orbit1{
-width:360px;height:360px;
-animation-duration:20s;
-}
-.orbit2{
-width:280px;height:280px;
-animation-duration:14s;
-}
-.moon{
-width:180px;height:180px;border-radius:50%;
-background:
-radial-gradient(circle at 30% 30%,#fff6cc,#d2a64f 60%,#35200c);
-box-shadow:0 0 60px rgba(255,215,140,.3);
-}
-@keyframes spin{
-from{transform:rotate(0)}
-to{transform:rotate(360deg)}
-}
-.tries h3{
-text-align:center;
-font-family:Cinzel,serif;
-}
-.chips{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
-}
-.chips span{
-padding:10px 16px;
-border-radius:14px;
-background:#160922;
-border:1px solid rgba(255,215,140,.2);
-}
-@media(max-width:700px){
-h1{font-size:48px}
-.search{grid-template-columns:1fr}
-.definition p{font-size:18px}
-.moonZone{height:320px}
-.orbit1{width:260px;height:260px}
-.orbit2{width:200px;height:200px}
-.moon{width:120px;height:120px}
-}
+
+.page{position:relative;z-index:2;width:min(920px,100%);min-height:100vh;margin:0 auto;padding:24px 16px 50px;display:flex;flex-direction:column;align-items:center}
+.top-menu{width:min(760px,100%);display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:4px auto 28px;padding:10px 14px;border:1px solid rgba(212,166,78,.18);border-radius:999px;background:rgba(3,3,10,.42);backdrop-filter:blur(10px)}
+.top-menu a{color:rgba(244,216,146,.86);text-decoration:none;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.top-menu a:hover{color:#fff3c8}
+.brand-clouds{position:absolute;top:62px;left:50%;width:min(760px,95vw);height:170px;transform:translateX(-50%);pointer-events:none;opacity:.36;background:
+  radial-gradient(ellipse 24% 22% at 25% 70%, rgba(212,166,78,.26), transparent 70%),
+  radial-gradient(ellipse 28% 24% at 38% 66%, rgba(212,166,78,.18), transparent 72%),
+  radial-gradient(ellipse 25% 20% at 63% 68%, rgba(199,181,255,.16), transparent 72%),
+  radial-gradient(ellipse 28% 24% at 76% 70%, rgba(212,166,78,.18), transparent 72%);
+  filter:blur(1px)}
+.logo{position:relative;text-align:center;font-size:clamp(34px,7vw,70px);font-weight:500;letter-spacing:.04em;color:var(--gold2);text-shadow:0 0 34px rgba(212,166,78,.36);white-space:nowrap}
+.moon-phases{margin-top:5px;color:rgba(199,181,255,.80);letter-spacing:.46em;text-indent:.46em;font-size:1rem;text-shadow:0 0 16px rgba(199,181,255,.22)}
+.subtitle{margin-top:16px;font-size:clamp(12px,2.2vw,16px);letter-spacing:.34em;color:rgba(244,216,146,.78);text-align:center}
+
+.game-card{width:min(760px,100%);margin-top:22px;padding:20px 18px 24px;border:1px solid rgba(212,166,78,.22);border-radius:30px;background:radial-gradient(circle at 50% 95%, rgba(212,166,78,.10), transparent 44%),linear-gradient(180deg,rgba(10,8,24,.82),rgba(3,3,10,.68));box-shadow:0 22px 90px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.05);backdrop-filter:blur(10px)}
+.definition-card{padding:20px 18px;border:1px solid rgba(212,166,78,.28);border-radius:24px;background:rgba(255,255,255,.035);box-shadow:inset 0 0 32px rgba(0,0,0,.20)}
+.section-title{text-align:center;color:rgba(244,216,146,.86);letter-spacing:.28em;text-transform:uppercase;font-size:.76rem;margin-bottom:14px}
+.definition-text{font-family:'Crimson Text',serif;font-size:clamp(23px,4.8vw,34px);line-height:1.65;text-align:center;color:rgba(247,239,217,.78)}
+.def-mask{display:inline-block;min-width:1.6em;margin:0 .08em;color:rgba(247,239,217,.28);letter-spacing:.08em}
+.def-word{padding:0 .08em;border-radius:8px;transition:all .25s ease}
+.def-word.exact{color:var(--gold2);text-shadow:0 0 14px rgba(212,166,78,.30)}
+.def-word.near{color:#cbb6ff;text-shadow:0 0 12px rgba(199,181,255,.20);font-style:italic}
+
+.oracle-wrap{--progress:0;position:relative;margin:26px auto 8px;width:min(330px,80vw);aspect-ratio:1;display:grid;place-items:center}
+.progress-ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -90deg, rgba(244,216,146,.95) calc(var(--progress)*1%), rgba(244,216,146,.12) 0);filter:drop-shadow(0 0 18px rgba(212,166,78,.25));-webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 7px));mask:radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 7px));transition:background .5s ease}
+.orbit{position:absolute;inset:10%;border:1px solid rgba(212,166,78,.22);border-radius:50%;animation:spin 18s linear infinite}
+.orbit:nth-child(3){inset:18%;border-color:rgba(199,181,255,.24);animation-duration:12s;animation-direction:reverse}
+.orbit::before,.orbit::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:var(--gold2);box-shadow:0 0 18px rgba(244,216,146,.85)}
+.orbit::before{top:14%;left:9%}.orbit::after{right:12%;bottom:18%;background:var(--violet2);box-shadow:0 0 18px rgba(199,181,255,.78)}
+.moon{position:relative;width:46%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 34% 28%, #fff7df 0%, #e9ca7a 16%, #a8712d 42%, #38230f 73%, #08040a 100%);box-shadow:0 0 35px rgba(244,216,146,.44),0 0 82px rgba(199,181,255,.18),inset -34px -34px 60px rgba(0,0,0,.64),inset 18px 18px 36px rgba(255,236,174,.20);overflow:hidden;animation:float 5.5s ease-in-out infinite}
+.moon::before{content:"";position:absolute;inset:-6%;border-radius:50%;background:radial-gradient(circle at 62% 34%, rgba(255,255,255,.22) 0 4%, transparent 4.3%),radial-gradient(circle at 37% 58%, rgba(0,0,0,.24) 0 7%, transparent 7.4%),radial-gradient(circle at 72% 68%, rgba(255,255,255,.13) 0 5%, transparent 5.3%);mix-blend-mode:screen;opacity:.7}
+.moon::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 50%, rgba(4,3,12,.78) 0%, rgba(4,3,12,.42) 38%, transparent 66%)}
+.oracle-wrap.is-won .moon{box-shadow:0 0 52px rgba(244,216,146,.72),0 0 130px rgba(212,166,78,.30),inset -30px -30px 54px rgba(0,0,0,.54),inset 18px 18px 38px rgba(255,236,174,.24)}
+.moon-word{position:relative;z-index:2;font-size:clamp(14px,3vw,22px);letter-spacing:.08em;color:#fff4c8;text-shadow:0 0 14px rgba(244,216,146,.75);font-weight:700;max-width:150%;transform:translateX(0);text-align:center}
+.oracle-status{text-align:center;margin:4px auto 20px;display:flex;flex-direction:column;gap:6px;color:rgba(247,239,217,.72)}
+.oracle-status strong{font-size:clamp(16px,3.5vw,24px);color:var(--gold2);font-weight:500}.oracle-status span{font-family:'Crimson Text',serif;font-size:clamp(17px,3.4vw,21px);color:rgba(199,181,255,.80)}
+.guess-form{display:flex;justify-content:center;align-items:center;width:min(560px,100%);margin:0 auto;background:rgba(255,255,255,.055);border:1px solid rgba(212,166,78,.28);border-radius:999px;padding:5px;box-shadow:inset 0 0 28px rgba(0,0,0,.22),0 0 22px rgba(199,181,255,.08)}
+.guess-form input{min-width:0;flex:1;height:50px;padding:0 18px;border:0;background:transparent;color:#fff7df;font-family:'Crimson Text',serif;font-weight:600;font-size:21px;outline:none}.guess-form input::placeholder{color:rgba(247,239,217,.48)}
+.guess-form button,.share-btn{height:50px;padding:0 22px;border-radius:999px;border:1px solid rgba(244,216,146,.58);background:linear-gradient(135deg, rgba(212,166,78,.98), rgba(122,82,30,.94));color:#170d04;font-family:'Cinzel',serif;font-weight:700;letter-spacing:.07em;white-space:nowrap;cursor:pointer;box-shadow:0 0 28px rgba(212,166,78,.24)}
+.share-btn{height:auto;min-height:58px;font-size:.82rem;padding:0 30px;animation:sharePulse 2s ease-in-out infinite}
+.victory-actions{display:flex;flex-direction:column;align-items:center;gap:14px;margin:8px 0 0}.sign-select{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;color:rgba(199,181,255,.78);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase}.sign-select select{background:rgba(255,255,255,.07);border:1px solid rgba(212,166,78,.3);border-radius:999px;padding:9px 14px;font-family:'Cinzel',serif;font-size:.72rem;color:#f0e8d0;outline:none}
+.error{text-align:center;margin-top:12px;color:#ffc0d0;font-family:'Crimson Text',serif;font-size:1rem}
+.proposal-zone{width:min(760px,100%);margin-top:24px}.preview-title{text-align:center;margin-bottom:14px;color:rgba(212,166,78,.78);font-size:13px;letter-spacing:.30em;text-transform:uppercase}.empty{text-align:center;color:rgba(247,239,217,.46);font-family:'Crimson Text',serif;font-size:1.1rem}.clean-list{display:grid;gap:10px}.guess-row2{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(212,166,78,.12);background:rgba(255,255,255,.02);border-radius:12px}.guess-row2 span{font-size:clamp(15px,3vw,20px);color:#eee8ff;letter-spacing:.05em}.guess-row2 em{font-family:'Crimson Text',serif;font-size:1rem;color:rgba(247,239,217,.58)}.guess-row2.exact em,.guess-row2.victory em{color:var(--gold2)}.guess-row2.near em{color:#cbb6ff}.guess-row2.distant em{color:rgba(247,239,217,.38)}
+.footer{margin-top:36px;padding:18px 0 8px;text-align:center;font-family:'Cinzel',serif;font-size:.64rem;letter-spacing:.12em;color:rgba(212,166,78,.65);display:flex;flex-direction:column;gap:8px}.footer a{color:rgba(212,166,78,.85);text-decoration:none}
+.content-page{width:min(760px,100%);margin-top:16px;padding:24px 22px;border:1px solid rgba(212,166,78,.22);border-radius:26px;background:linear-gradient(180deg,rgba(10,8,24,.82),rgba(3,3,10,.68));box-shadow:0 22px 90px rgba(0,0,0,.30)}.content-page h1{color:var(--gold2);font-weight:500;margin-bottom:16px}.content-page h2{color:var(--gold2);font-weight:500;margin:22px 0 10px}.content-page p,.content-page li{font-family:'Crimson Text',serif;font-size:1.18rem;line-height:1.65;color:rgba(247,239,217,.78);margin-bottom:10px}.content-page a{color:var(--gold2)}.content-page ul{padding-left:20px}.results-list{display:grid;gap:10px;margin-top:16px}.result-row{display:grid;grid-template-columns:110px 1fr 1fr;gap:12px;padding:12px;border-bottom:1px solid rgba(212,166,78,.16);font-family:'Crimson Text',serif;color:rgba(247,239,217,.82)}.result-row strong{font-family:'Cinzel',serif;color:var(--gold2);font-size:.82rem}.contact-form{display:grid;gap:12px;margin-top:14px}.contact-form input,.contact-form textarea{width:100%;border:1px solid rgba(212,166,78,.25);border-radius:14px;background:rgba(255,255,255,.055);color:#fff7df;padding:12px 14px;font-family:'Crimson Text',serif;font-size:1.08rem;outline:none}.contact-form textarea{min-height:130px;resize:vertical}.contact-form button{justify-self:start;height:46px;padding:0 20px;border-radius:999px;border:1px solid rgba(244,216,146,.58);background:linear-gradient(135deg, rgba(212,166,78,.98), rgba(122,82,30,.94));color:#170d04;font-family:'Cinzel',serif;font-weight:700;letter-spacing:.07em;cursor:pointer}
+.particle{position:fixed;pointer-events:none;z-index:200;animation:fly 2s ease-out forwards;color:var(--gold2);text-shadow:0 0 14px rgba(244,216,146,.72)}@keyframes fly{0%{opacity:1;transform:translate(0,0) rotate(0deg) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(360deg) scale(.2)}}.moon-burst{position:fixed;left:50vw;top:40vh;width:120px;height:120px;pointer-events:none;z-index:201;border-radius:50%;background:radial-gradient(circle,rgba(255,230,120,.9) 0%,rgba(255,190,60,.5) 42%,transparent 70%);animation:mburst 1.3s ease-out forwards}@keyframes mburst{0%{opacity:1;transform:translate(-50%,-50%) scale(.5)}45%{opacity:.8;transform:translate(-50%,-50%) scale(2)}100%{opacity:0;transform:translate(-50%,-50%) scale(3.2)}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.015)}}@keyframes sharePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+@media(max-width:680px){.page{padding:18px 12px 44px}.top-menu{gap:10px;border-radius:20px}.top-menu a{font-size:.58rem}.logo{font-size:36px}.moon-phases{font-size:.85rem}.game-card{padding:15px 12px 20px;border-radius:24px}.definition-card{padding:17px 12px}.oracle-wrap{width:min(292px,82vw)}.guess-form{width:100%}.guess-form input{font-size:19px;padding-left:14px}.guess-form button{padding:0 15px;font-size:12px}.result-row{grid-template-columns:1fr;gap:4px}.moon-word{font-size:14px}}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#03030a}::-webkit-scrollbar-thumb{background:#1e1840;border-radius:3px}
+
+/* V6 greffe : ajouts discrets sans changer l'esthétique V1 */
+.yesterday-card{width:min(760px,100%);margin:0 auto 28px;padding:13px 17px;border:1px solid rgba(212,166,78,.20);border-radius:24px;background:rgba(3,3,10,.34);backdrop-filter:blur(10px);display:flex;align-items:center;gap:14px;box-shadow:inset 0 0 24px rgba(0,0,0,.16)}
+.zodiac-medallion{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex:0 0 54px;color:#c7b5ff;font-family:'Cinzel',serif;font-size:2rem;border:1px solid rgba(199,181,255,.40);background:radial-gradient(circle at 42% 36%,rgba(199,181,255,.20),rgba(3,3,10,.62));box-shadow:0 0 22px rgba(199,181,255,.14)}
+.yesterday-card strong{display:block;color:rgba(244,216,146,.90);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;line-height:1.55}.yesterday-card span{display:block;margin-top:2px;font-family:'Crimson Text',serif;color:rgba(247,239,217,.66);font-size:1.08rem}.oracle-invite{width:min(760px,100%);text-align:center;margin:20px auto 14px}.oracle-invite strong{display:block;font-family:'Cinzel',serif;font-weight:500;color:var(--gold2);font-size:clamp(26px,6vw,46px);line-height:1.55;letter-spacing:.05em;text-transform:uppercase;text-shadow:0 0 22px rgba(212,166,78,.16)}.oracle-invite em{display:block;margin-top:8px;color:#c7b5ff;font-family:'Crimson Text',serif;font-size:clamp(20px,4.6vw,30px);font-style:normal}.inline-guess{margin:18px auto 26px}.mystery-dots{display:flex;justify-content:center;gap:clamp(9px,2.4vw,15px);flex-wrap:wrap;margin:0 auto 22px}.mystery-dots i{width:clamp(18px,5vw,30px);height:clamp(18px,5vw,30px);border-radius:50%;background:rgba(199,181,255,.88);box-shadow:0 0 18px rgba(199,181,255,.20);display:grid;place-items:center;color:#150d22;font-family:'Cinzel',serif;font-style:normal;font-weight:700;font-size:clamp(12px,3vw,18px)}.definition-heading{margin:22px auto 14px;text-align:center;color:rgba(244,216,146,.88);font-family:'Cinzel',serif;font-size:clamp(26px,6vw,44px);font-weight:600;letter-spacing:.06em}.definition-card.v6-card{width:min(760px,100%);overflow:hidden}.definition-card.v6-card .definition-text{overflow-wrap:anywhere;word-break:normal}.def-mask.v6bar{color:transparent;letter-spacing:0;min-width:2.2em;background:linear-gradient(90deg,rgba(114,75,186,.82),rgba(132,82,206,.72));border-radius:999px;transform:translateY(.12em);height:.72em;vertical-align:baseline}.footer span{text-decoration:none}.top-menu button{background:none;border:0;color:rgba(244,216,146,.86);text-decoration:none;font-family:'Cinzel',serif;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;cursor:pointer}.top-menu button:hover{color:#fff3c8}.content-page button.back-home{margin-top:18px;height:42px;padding:0 18px;border-radius:999px;border:1px solid rgba(244,216,146,.58);background:linear-gradient(135deg, rgba(212,166,78,.98), rgba(122,82,30,.94));color:#170d04;font-family:'Cinzel',serif;font-weight:700;letter-spacing:.07em;cursor:pointer}.results-sign-list{display:grid;gap:12px;margin-top:18px}.result-sign-row{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;padding:13px 15px;border:1px solid rgba(212,166,78,.16);border-radius:999px;background:rgba(255,255,255,.025)}.result-sign-row .zodiac-medallion{width:38px;height:38px;flex-basis:38px;font-size:1.45rem}.result-sign-row strong{font-size:.82rem;color:var(--gold2);letter-spacing:.08em}.result-sign-row span{font-family:'Crimson Text',serif;color:rgba(247,239,217,.74);font-size:1.12rem}.result-sign-row em{font-style:normal;color:rgba(244,216,146,.76);font-size:.85rem}
+@media(max-width:680px){.yesterday-card{margin-bottom:24px;padding:12px 14px}.zodiac-medallion{width:46px;height:46px;flex-basis:46px;font-size:1.7rem}.yesterday-card strong{font-size:.62rem}.yesterday-card span{font-size:1rem}.oracle-invite{margin-top:18px}.oracle-invite strong{font-size:clamp(28px,8.8vw,44px)}.oracle-invite em{font-size:clamp(20px,6vw,28px)}.inline-guess{margin-bottom:25px}.definition-heading{font-size:clamp(30px,9vw,42px)}.definition-card.v6-card{padding:24px 12px}.definition-card.v6-card .definition-text{font-size:clamp(22px,6.1vw,31px);line-height:1.7}.mystery-dots{gap:12px}.top-menu button{font-size:.58rem}.result-sign-row{grid-template-columns:42px 1fr auto;border-radius:24px}.result-sign-row .zodiac-medallion{width:34px;height:34px;flex-basis:34px;font-size:1.28rem}}
