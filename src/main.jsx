@@ -1,20 +1,79 @@
 
-import React, { useMemo, useState } from 'react'
-import { createRoot } from 'react-dom/client'
-import { Home, BookOpen, Trophy, Info, Sparkles, Gem } from 'lucide-react'
-import './styles.css'
+import React,{useState} from "react";
+import {createRoot} from "react-dom/client";
+import "./styles.css";
 
-const WORDS = [
-  { answer:'SOLSTICE', category:'Phénomène astronomique', grammar:'Nom masculin', definition:[['Moment',['moment','instant']],['de',['de']],['l’année',['année','annee']],['où',['où','ou']],['le',['le']],['Soleil',['soleil','astre']],['atteint',['atteint','arrive']],['sa',['sa']],['plus',['plus']],['grande',['grande']],['déclinaison',['déclinaison','declinaison']],['apparente',['apparente','visible']],[',',[],true],['marquant',['marquant','marque']],['le',['le']],['jour',['jour']],['le',['le']],['plus',['plus']],['long',['long']],['ou',['ou']],['le',['le']],['plus',['plus']],['court',['court']],['.',[],true]], close:{ete:['soleil','jour','long'],été:['soleil','jour','long'],hiver:['jour','court'],lumiere:['soleil','jour'],lumière:['soleil','jour'],saison:['année'],astronomie:['soleil','apparente'],equinoxe:['année','soleil'],équinoxe:['année','soleil']} },
-  { answer:'AURA', category:'Énergie subtile', grammar:'Nom féminin', definition:[['Rayonnement',['rayonnement','lumière','lumiere']],['supposé',['supposé','suppose']],['entourer',['entourer','autour']],['un',['un']],['être',['être','etre']],['vivant',['vivant']],[',',[],true],['parfois',['parfois']],['associé',['associé','associe']],['à',['à','a']],['son',['son']],['état',['état','etat']],['émotionnel',['émotionnel','emotionnel']],['ou',['ou']],['spirituel',['spirituel']],['.',[],true]], close:{energie:['rayonnement','spirituel'],énergie:['rayonnement','spirituel'],lumiere:['rayonnement'],lumière:['rayonnement'],halo:['entourer'],emotion:['émotionnel'],émotion:['émotionnel']} },
-  { answer:'ORACLE', category:'Pratique divinatoire', grammar:'Nom masculin', definition:[['Réponse',['réponse','reponse']],['ou',['ou']],['message',['message']],['attribué',['attribué','attribue']],['à',['à','a']],['une',['une']],['puissance',['puissance','force']],['divine',['divine']],['ou',['ou']],['mystérieuse',['mystérieuse','mysterieuse']],[',',[],true],['consultée',['consultée','consultee']],['pour',['pour']],['éclairer',['éclairer','eclairer']],['l’avenir',['avenir']],['.',[],true]], close:{divination:['divine','avenir'],prophetie:['avenir','message'],prophétie:['avenir','message'],prediction:['avenir'],prédiction:['avenir']} },
-  { answer:'ECLIPSE', category:'Phénomène céleste', grammar:'Nom féminin', definition:[['Disparition',['disparition','cache']],['apparente',['apparente','visible']],['d’un',['dun','d’un']],['astre',['astre']],['lorsqu’un',['lorsquun','lorsqu’un']],['autre',['autre']],['corps',['corps']],['céleste',['céleste','celeste']],['se',['se']],['place',['place']],['devant',['devant']],['lui',['lui']],['.',[],true]], close:{lune:['astre','céleste'],soleil:['astre'],ombre:['disparition'],nuit:['disparition'],cache:['disparition']} },
-  { answer:'RITUEL', category:'Pratique symbolique', grammar:'Nom masculin', definition:[['Ensemble',['ensemble']],['de',['de']],['gestes',['gestes']],['ou',['ou']],['de',['de']],['paroles',['paroles']],['accomplis',['accomplis','fait']],['selon',['selon']],['un',['un']],['ordre',['ordre']],['précis',['précis','precis']],[',',[],true],['souvent',['souvent']],['chargé',['chargé','charge']],['d’une',['dune','d’une']],['valeur',['valeur']],['symbolique',['symbolique']],['.',[],true]], close:{ceremonie:['gestes','paroles','symbolique'],cérémonie:['gestes','paroles','symbolique'],magie:['symbolique'],rite:['gestes','ordre']} }
-]
-const signs=[['Scorpion','♏',24],['Poissons','♓',21],['Cancer','♋',18],['Capricorne','♑',17],['Lion','♌',15],['Taureau','♉',14],['Vierge','♍',13],['Sagittaire','♐',12],['Gémeaux','♊',11],['Verseau','♒',10],['Balance','♎',9],['Bélier','♈',8]]
-const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').replace(/[’']/g,'').trim()
-function dayIndex(){const start=new Date('2026-01-01T00:00:00'); const today=new Date(); return Math.abs(Math.floor((today-start)/86400000))%WORDS.length}
-function App(){const daily=WORDS[dayIndex()]; const [page,setPage]=useState('play'); const [input,setInput]=useState(''); const [tries,setTries]=useState([]); const [won,setWon]=useState(false); const guessed=useMemo(()=>new Set(tries.map(norm)),[tries]); const closeReveals=useMemo(()=>{const s=new Set(); tries.forEach(t=>(daily.close[norm(t)]||[]).forEach(x=>s.add(norm(x)))); return s},[tries,daily]); const revealed=daily.definition.filter(([txt,keys,p])=>!p&&(keys.some(k=>guessed.has(norm(k)))||closeReveals.has(norm(txt)))).length; const total=daily.definition.filter(x=>!x[2]).length; const progress=won?100:Math.max(5,Math.min(95,Math.round(revealed/total*100))); function submit(e){e.preventDefault(); const g=input.trim(); if(!g)return; if(!tries.map(norm).includes(norm(g))) setTries([g,...tries].slice(0,12)); if(norm(g)===norm(daily.answer)) setWon(true); setInput('')}
-return <main><div className="sky"></div><nav className="menu"><button className={page==='play'?'on':''} onClick={()=>setPage('play')}><Home size={17}/>Accueil</button><button className={page==='rules'?'on':''} onClick={()=>setPage('rules')}><BookOpen size={17}/>Règles</button><button className={page==='results'?'on':''} onClick={()=>setPage('results')}><Trophy size={17}/>Résultats</button><button className={page==='about'?'on':''} onClick={()=>setPage('about')}><Info size={17}/>À propos</button></nav>{page==='play'&&<section className="page"><div className="yesterday"><b>♏</b><p><strong>Hier, les Scorpions ont été les plus intuitifs.</strong><span>Quel signe brillera aujourd’hui ?</span></p></div><h1>Le Mot Astral</h1><div className="littlePlanets"><i></i><i></i><i></i><i></i><i></i></div><div className="challenge">L’oracle vous met au défi</div><div className="oracleCall"><Gem size={38}/><span>Consultez l’oracle pour dévoiler la définition</span></div><form className="bar" onSubmit={submit}><input value={input} onChange={e=>setInput(e.target.value)} placeholder="Consultez l’oracle..."/><button>Proposer 🔮</button></form><div className="label"><Sparkles size={17}/> Définition</div><div className="mystery">{daily.answer.split('').map((l,i)=><span key={i}>{won?l:''}</span>)}</div><small>{daily.answer.length} lettres</small><div className="definition"><p>{won?<strong className="grammar">{daily.grammar}</strong>:<strong className="hiddenGrammar">●●● ●●●●●●●●●</strong>} {' — '}{daily.definition.map(([txt,keys,punct],i)=>{if(punct)return <em key={i}>{txt} </em>; const exact=keys.some(k=>guessed.has(norm(k))); const close=closeReveals.has(norm(txt)); if(won||exact||close)return <span key={i} className={close&&!exact?'close':'found'}>{txt}</span>; return <span key={i} className="mask">████</span>})}</p></div><div className="moonZone"><div className="orbit"><i className="p p1"></i><i className="p p2"></i><i className="p p3"></i><div className="moon" style={{'--p':`${progress}%`}}></div></div><h2>{won?'Le mystère est dévoilé.':'Le mystère demeure...'}</h2></div><div className="tries"><h3>Vos tentatives</h3><div>{tries.length?tries.map(t=><span key={t}>{t}</span>):<em>Aucune tentative pour le moment.</em>}</div></div></section>}{page==='rules'&&<Content title="Règles du jeu"><article>La catégorie du mot est visible dès le départ.</article><article>Le mot mystère est représenté par des cercles : un cercle par lettre.</article><article>La définition se révèle progressivement avec vos propositions.</article><article>Les mots proches apparaissent en violet.</article><article>La lune se remplit avec votre progression.</article></Content>}{page==='results'&&<section className="page content"><h1>Résultats</h1><div className="winner"><b>♏</b><p><strong>Scorpion</strong><span>Signe gagnant de la veille</span></p></div><div className="ranking">{signs.map((s,i)=><article key={s[0]}><b>{i+1}</b><i>{s[1]}</i><span>{s[0]}</span><strong>{s[2]} pts</strong></article>)}</div></section>}{page==='about'&&<Content title="À propos"><article>Le Mot Astral est un jeu quotidien de définition cachée, d’intuition et de compétition entre signes.</article></Content>}<footer>Le Mot Astral, inspiré librement de Pédantix.</footer></main>}
-function Content({title,children}){return <section className="page content"><h1>{title}</h1><div className="cards">{children}</div></section>}
-createRoot(document.getElementById('root')).render(<App/>)
+const signs=[["♏","Scorpion"],["♍","Vierge"],["♌","Lion"]];
+const answer="ORACLE";
+
+function App(){
+ const [tries,setTries]=useState([]);
+ const [input,setInput]=useState("");
+
+ const submit=(e)=>{
+   e.preventDefault();
+   if(!input.trim()) return;
+   setTries([input,...tries]);
+   setInput("");
+ }
+
+ return <div className="app">
+  <div className="menu">
+    <span>Accueil</span>
+    <span>Règles</span>
+    <span>Résultats</span>
+    <span>À propos</span>
+  </div>
+
+  <div className="winner">
+    <div className="sign">♏</div>
+    <div>
+      <strong>Hier, les Scorpions ont été les plus intuitifs.</strong>
+      <p>Quel signe brillera aujourd’hui ?</p>
+    </div>
+  </div>
+
+  <h1>LE MOT ASTRAL</h1>
+
+  <div className="planets">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div className="oracleTitle">
+    Consultez l’Oracle pour dévoiler la définition
+    <small>Indice : pratique divinatoire</small>
+  </div>
+
+  <form className="search" onSubmit={submit}>
+    <input value={input} onChange={(e)=>setInput(e.target.value)} placeholder="Consultez l’oracle..."/>
+    <button>Proposer 🔮</button>
+  </form>
+
+  <div className="letters">
+   {answer.split("").map((l,i)=><div key={i}></div>)}
+  </div>
+
+  <div className="definition">
+    <h2>Définition</h2>
+    <p>
+      <span className="hidden">██████</span> ou message attribué à une puissance divine consultée pour éclairer l’avenir.
+    </p>
+  </div>
+
+  <div className="moonZone">
+    <div className="orbit orbit1"></div>
+    <div className="orbit orbit2"></div>
+    <div className="moon"></div>
+  </div>
+
+  <div className="tries">
+    <h3>Vos tentatives</h3>
+    <div className="chips">
+      {tries.map((t,i)=><span key={i}>{t}</span>)}
+    </div>
+  </div>
+
+ </div>
+}
+
+createRoot(document.getElementById("root")).render(<App />);
