@@ -400,20 +400,130 @@ body::after{
 }
 
 
-/* V9 : bouton de partage social, sans modifier le reste de l’interface */
-.social-share-button{
-  display:inline-flex!important;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+/* V10 complète — corrections ciblées uniquement */
+.oracle-title,
+.oracle-title-line,
+.oracle-call-title,
+.oracleCall,
+.oracleTitle,
+.consult-title{
+  font-size:clamp(15px, 3.9vw, 19px) !important;
+  font-style:italic !important;
+  line-height:1.35 !important;
 }
-.social-share-button span{
-  width:20px;
-  height:20px;
-  border-radius:50%;
+
+.oracle-subtitle,
+.indice,
+.hint,
+.category,
+.category-label{
+  font-size:clamp(14px, 3.6vw, 18px) !important;
+  line-height:1.35 !important;
+}
+
+.grammar-mask{
+  display:inline-block;
+  color:transparent !important;
+  background:linear-gradient(90deg, rgba(168,120,255,.70), rgba(216,194,255,.55)) !important;
+  border-radius:999px;
+  padding:0 .65em;
+  line-height:1.05;
+  vertical-align:middle;
+  min-width:5.6em;
+  box-shadow:0 0 14px rgba(183,150,255,.16);
+}
+
+.astral-sign-symbol{
+  width:42px;
+  height:42px;
   display:inline-grid;
   place-items:center;
-  border:1px solid currentColor;
-  font-size:14px;
-  line-height:1;
+  border-radius:50%;
+  color:#c7b5ff;
+  font-family:'Cinzel', serif;
+  font-size:1.75rem;
+  text-shadow:
+    0 0 10px rgba(199,181,255,.85),
+    0 0 24px rgba(199,181,255,.28);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(199,181,255,.13), transparent 62%);
+}
+.astral-sign-symbol span{
+  display:block;
+  transform:translateY(-1px);
+}
+.astral-sign-symbol.small{
+  width:32px;
+  height:32px;
+  font-size:1.32rem;
+}
+
+.results-card{
+  width:min(820px,100%);
+  margin:22px auto 42px;
+  padding:26px 18px;
+  border:1px solid rgba(212,166,78,.28);
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(10,8,24,.88),rgba(3,3,10,.78));
+}
+.results-card h1{
+  text-align:center;
+  color:var(--gold2, #f4d892);
+  font-family:'Cinzel',serif;
+  margin:0 0 10px;
+}
+.results-intro{
+  text-align:center;
+  color:rgba(247,239,217,.68);
+  font-family:'Crimson Text',serif;
+  font-size:1.05rem;
+  margin:0 0 18px;
+}
+.results-table{
+  display:grid;
+  gap:10px;
+}
+.results-row{
+  display:grid;
+  grid-template-columns:1fr 1fr 1.45fr 1fr;
+  gap:10px;
+  align-items:center;
+  padding:12px 14px;
+  border:1px solid rgba(212,166,78,.16);
+  border-radius:18px;
+  background:rgba(255,255,255,.018);
+  color:rgba(247,239,217,.86);
+}
+.results-row.head{
+  color:#c7b5ff;
+  font-family:'Cinzel',serif;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:.72rem;
+}
+.results-row strong{
+  color:var(--gold2, #f4d892);
+  font-family:'Cinzel',serif;
+  letter-spacing:.06em;
+}
+.winner-sign{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--gold2, #f4d892);
+  font-weight:700;
+}
+
+@media(max-width:680px){
+  .results-row{
+    grid-template-columns:1fr;
+    text-align:center;
+    gap:6px;
+  }
+  .results-row.head{
+    display:none;
+  }
+  .winner-sign{
+    justify-content:center;
+  }
 }
