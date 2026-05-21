@@ -17,6 +17,14 @@ const ZODIAC_SIGNS = [
   { name: "Poissons", plural: "les Poissons", symbol: "♓" },
 ];
 
+const RESULT_HISTORY = [
+  { date: "21 mai 2026", mot: "Oracle", sign: ZODIAC_SIGNS[7] },
+  { date: "20 mai 2026", mot: "Aura", sign: ZODIAC_SIGNS[5] },
+  { date: "19 mai 2026", mot: "Éclipse", sign: ZODIAC_SIGNS[11] },
+  { date: "18 mai 2026", mot: "Solstice", sign: ZODIAC_SIGNS[4] },
+  { date: "17 mai 2026", mot: "Rituel", sign: ZODIAC_SIGNS[9] },
+];
+
 const DAILY_WORDS = [
   { word: "oracle", category: "pratique divinatoire", grammar: "Nom masculin", definition: "Réponse ou message attribué à une puissance divine consultée pour éclairer l'avenir." },
   { word: "aura", category: "énergie subtile", grammar: "Nom féminin", definition: "Rayonnement supposé entourer un être vivant, parfois associé à son état émotionnel ou spirituel." },
@@ -65,6 +73,8 @@ function Home(){
   const [guesses,setGuesses] = useState([]);
   const [error,setError] = useState("");
   const [won,setWon] = useState(false);
+  const [selectedSign, setSelectedSign] = useState(() => localStorage.getItem("motAstralSign") || "");
+  const [shareNotice, setShareNotice] = useState("");
   const inputRef = useRef(null);
   const daily = useMemo(()=>DAILY_WORDS[todayIndex()],[]);
   const word = daily.word;
@@ -87,6 +97,23 @@ function Home(){
     const base = Math.min(92, Math.round(((exact + near*.45) / Math.max(1, wordTokens.length))*100));
     return won ? 100 : base;
   },[guesses, wordTokens.length, won]);
+
+  function chooseSign(signName){
+    setSelectedSign(signName);
+    localStorage.setItem("motAstralSign", signName);
+  }
+
+  function shareResults(){
+    const selected = selectedSign || "Mon signe";
+    const text = `Le Mot Astral ✨\nMot trouvé : ${word.toUpperCase()}\nSigne : ${selected}\nTentatives : ${guesses.length}\n${window.location.href}`;
+    if (navigator.share) {
+      navigator.share({ title: "Le Mot Astral", text }).catch(() => {});
+    } else {
+      navigator.clipboard?.writeText(text);
+      setShareNotice("Résultat copié.");
+      setTimeout(() => setShareNotice(""), 2200);
+    }
+  }
 
   function classify(raw){
     const guess = normalize(raw);
@@ -126,6 +153,8 @@ function Home(){
   if(view==="results") return <Results setView={setView}/>;
   if(view==="about") return <Content title="À propos" setView={setView}><p>Le Mot Astral est un jeu quotidien de définition cachée, d’intuition et de compétition entre signes.</p></Content>;
 
+  if(!selectedSign) return <SignChoice onChoose={chooseSign}/>;
+
   return <main className="page">
     <nav className="top-menu">
       <button onClick={()=>setView("rules")}>Règles du jeu</button>
@@ -152,6 +181,16 @@ function Home(){
       <button onClick={handleSubmit}>Proposer 🔮</button>
     </div>
     {error && <p className="error">{error}</p>}
+    {won && <section className="victory-banner" aria-live="polite">
+      <div className="star-fireworks" aria-hidden="true">
+        <i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i><i>✶</i>
+      </div>
+      <p>Les astres se sont alignés</p>
+      <h2>{word.toUpperCase()}</h2>
+      <span>{daily.grammar} · {daily.category}</span>
+      <button onClick={shareResults}>Partager vos résultats</button>
+      {shareNotice && <em>{shareNotice}</em>}
+    </section>}
 
     <div className="definition-heading">Définition</div>
     <section className="game-card">
@@ -159,7 +198,7 @@ function Home(){
         <div className="mystery-dots" aria-label="Mot mystère">
           {Array.from(word).map((letter,i)=><i key={i}>{won ? letter.toUpperCase() : ""}</i>)}
         </div>
-        <p className="definition-text"><span className="def-mask">{"•".repeat(Math.min(Math.max(daily.grammar.length,4),12))}</span> — {renderDefinition()}</p>
+        <p className="definition-text"><span className="grammar-visible">{daily.grammar}</span> — {renderDefinition()}</p>
       </div>
       <section className={`oracle-wrap ${won ? "is-won" : ""}`} style={{"--progress":progress}}>
         <div className="progress-ring" aria-hidden="true" />
@@ -177,7 +216,27 @@ function Home(){
     <footer className="footer"><span>Le Mot Astral, inspiré librement de Pédantix.</span></footer>
   </main>;
 }
+
+function SignChoice({onChoose}){
+  return <main className="page sign-choice-page">
+    <section className="sign-choice-card">
+      <div className="sign-star">✦</div>
+      <h1>Choisissez votre signe</h1>
+      <p>Il représentera votre intuition dans l’oracle.</p>
+      <div className="sign-options">
+        {ZODIAC_SIGNS.map(sign => (
+          <button key={sign.name} onClick={() => onChoose(sign.name)}>
+            <span className="elegant-zodiac">{sign.symbol}</span>
+            <strong>{sign.name}</strong>
+          </button>
+        ))}
+      </div>
+      <button className="enter-oracle" onClick={() => onChoose("Non renseigné")}>Entrer dans l’oracle</button>
+    </section>
+  </main>
+}
+
 function Content({title,children,setView}){return <main className="page"><nav className="top-menu"><button onClick={()=>setView("home")}>Accueil</button><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button></nav><section className="content-page"><h1>{title}</h1>{children}<button className="back-home" onClick={()=>setView("home")}>Retour à l’oracle</button></section></main>}
-function Results({setView}){return <main className="page"><nav className="top-menu"><button onClick={()=>setView("home")}>Accueil</button><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button></nav><section className="content-page"><h1>Résultats</h1><p>Les signes les plus intuitifs de l’oracle.</p><div className="results-sign-list">{ZODIAC_SIGNS.map((s,i)=><div className="result-sign-row" key={s.name}><div className="zodiac-medallion">{s.symbol}</div><span>{s.name}</span><em>{24-i} éclats</em></div>)}</div><button className="back-home" onClick={()=>setView("home")}>Retour à l’oracle</button></section></main>}
+function Results({setView}){return <main className="page"><nav className="top-menu"><button onClick={()=>setView("home")}>Accueil</button><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button></nav><section className="content-page results-page"><h1>Résultats</h1><p className="results-intro">Les derniers mots révélés par l’oracle.</p><div className="results-table"><div className="results-head"><span>Date</span><span>Mot</span><span>Signe vainqueur</span></div>{RESULT_HISTORY.map((r,i)=><div className={`result-history-row ${i===0?"winner-row":""}`} key={`${r.date}-${r.mot}`}><span className="result-date">{r.date}</span><span className="result-word">{r.mot}</span><span className="result-winner"><span className="zodiac-medallion elegant-sign">{r.sign.symbol}</span><strong>{r.sign.name}</strong></span></div>)}</div><button className="back-home" onClick={()=>setView("home")}>Retour à l’oracle</button></section></main>}
 
 createRoot(document.getElementById("root")).render(<Home/>);
