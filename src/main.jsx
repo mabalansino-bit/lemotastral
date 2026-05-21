@@ -1,32 +1,20 @@
-const WIKTIONARY_SOURCE_NOTE = "Définitions inspirées de formulations de type Wiktionnaire, adaptées pour le gameplay : mot cible supprimé, reformulation minimale, ton fluide."; 
-
-const RESULTS_HISTORY = [
-  { date: "20 mai", word: "LUNE", sign: "Scorpion", symbol: "♏", avg: "7,4" },
-  { date: "19 mai", word: "AURA", sign: "Poissons", symbol: "♓", avg: "8,1" },
-  { date: "18 mai", word: "RITUEL", sign: "Vierge", symbol: "♍", avg: "6,8" },
-  { date: "17 mai", word: "ORACLE", sign: "Cancer", symbol: "♋", avg: "9,2" },
-  { date: "16 mai", word: "ÉCLIPSE", sign: "Lion", symbol: "♌", avg: "7,9" },
-  { date: "15 mai", word: "ASTRE", sign: "Balance", symbol: "♎", avg: "8,7" },
-  { date: "14 mai", word: "TAROT", sign: "Capricorne", symbol: "♑", avg: "6,5" }
-];
-
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
 const ZODIAC_SIGNS = [
-  { name: "Bélier", plural: "les Béliers", symbol: "♈" },
-  { name: "Taureau", plural: "les Taureaux", symbol: "♉" },
-  { name: "Gémeaux", plural: "les Gémeaux", symbol: "♊" },
-  { name: "Cancer", plural: "les Cancers", symbol: "♋" },
-  { name: "Lion", plural: "les Lions", symbol: "♌" },
-  { name: "Vierge", plural: "les Vierges", symbol: "♍" },
-  { name: "Balance", plural: "les Balances", symbol: "♎" },
-  { name: "Scorpion", plural: "les Scorpions", symbol: "♏" },
-  { name: "Sagittaire", plural: "les Sagittaires", symbol: "♐" },
-  { name: "Capricorne", plural: "les Capricornes", symbol: "♑" },
-  { name: "Verseau", plural: "les Verseaux", symbol: "♒" },
-  { name: "Poissons", plural: "les Poissons", symbol: "♓" },
+  { name: "Bélier", plural: "les Béliers", symbol: "♈︎" },
+  { name: "Taureau", plural: "les Taureaux", symbol: "♉︎" },
+  { name: "Gémeaux", plural: "les Gémeaux", symbol: "♊︎" },
+  { name: "Cancer", plural: "les Cancers", symbol: "♋︎" },
+  { name: "Lion", plural: "les Lions", symbol: "♌︎" },
+  { name: "Vierge", plural: "les Vierges", symbol: "♍︎" },
+  { name: "Balance", plural: "les Balances", symbol: "♎︎" },
+  { name: "Scorpion", plural: "les Scorpions", symbol: "♏︎" },
+  { name: "Sagittaire", plural: "les Sagittaires", symbol: "♐︎" },
+  { name: "Capricorne", plural: "les Capricornes", symbol: "♑︎" },
+  { name: "Verseau", plural: "les Verseaux", symbol: "♒︎" },
+  { name: "Poissons", plural: "les Poissons", symbol: "♓︎" },
 ];
 
 const RESULT_HISTORY = [
@@ -35,8 +23,11 @@ const RESULT_HISTORY = [
   { date: "19 mai 2026", mot: "Éclipse", sign: ZODIAC_SIGNS[11] },
   { date: "18 mai 2026", mot: "Solstice", sign: ZODIAC_SIGNS[4] },
   { date: "17 mai 2026", mot: "Rituel", sign: ZODIAC_SIGNS[9] },
+  { date: "16 mai 2026", mot: "Présage", sign: ZODIAC_SIGNS[2] },
+  { date: "15 mai 2026", mot: "Harmonie", sign: ZODIAC_SIGNS[6] },
 ];
 
+// Définitions formulées dans un style dictionnaire, à partir de formulations de type Wiktionnaire, puis adaptées pour le gameplay.
 const DAILY_WORDS = [
   { word: "oracle", category: "pratique divinatoire", grammar: "Nom masculin", definition: "Réponse ou message attribué à une puissance divine consultée pour éclairer l'avenir." },
   { word: "aura", category: "énergie subtile", grammar: "Nom féminin", definition: "Rayonnement supposé entourer un être vivant, parfois associé à son état émotionnel ou spirituel." },
@@ -117,10 +108,7 @@ function Home(){
 
   function shareResults(){
     const selected = selectedSign || "Mon signe";
-    const text = `Le Mot Astral ✨
-${selected} a percé l’Oracle en ${guesses.length} tentative${guesses.length > 1 ? "s" : ""}.
-Saurez-vous révéler le mot du jour ?
-${window.location.origin}`;
+    const text = `Le Mot Astral ✨\nMot trouvé : ${word.toUpperCase()}\nSigne : ${selected}\nTentatives : ${guesses.length}\n${window.location.href}`;
     if (navigator.share) {
       navigator.share({ title: "Le Mot Astral", text }).catch(() => {});
     } else {
@@ -203,7 +191,7 @@ ${window.location.origin}`;
       <p>Les astres se sont alignés</p>
       <h2>{word.toUpperCase()}</h2>
       <span>{daily.grammar} · {daily.category}</span>
-      <button onClick={shareResults}>📸 💬 📸 💬 Partager mes résultats</button>
+      <button onClick={shareResults}>Partager vos résultats</button>
       {shareNotice && <em>{shareNotice}</em>}
     </section>}
 
@@ -213,7 +201,7 @@ ${window.location.origin}`;
         <div className="mystery-dots" aria-label="Mot mystère">
           {Array.from(word).map((letter,i)=><i key={i}>{won ? letter.toUpperCase() : ""}</i>)}
         </div>
-        <p className="definition-text"><span className="grammar-mask" aria-label="nature grammaticale masquée">████ ████████</span> — {renderDefinition()}</p>
+        <p className="definition-text"><span className={won ? "grammar-revealed" : "def-mask v6bar grammar-bar"}>{won ? daily.grammar : "████████"}</span> — {renderDefinition()}</p>
       </div>
       <section className={`oracle-wrap ${won ? "is-won" : ""}`} style={{"--progress":progress}}>
         <div className="progress-ring" aria-hidden="true" />
@@ -232,13 +220,6 @@ ${window.location.origin}`;
   </main>;
 }
 
-
-function AstralSign({symbol, small=false}){
-  return <span className={small ? "astral-sign-symbol small" : "astral-sign-symbol"} aria-hidden="true">
-    <span>{symbol}</span>
-  </span>
-}
-
 function SignChoice({onChoose}){
   return <main className="page sign-choice-page">
     <section className="sign-choice-card">
@@ -248,7 +229,7 @@ function SignChoice({onChoose}){
       <div className="sign-options">
         {ZODIAC_SIGNS.map(sign => (
           <button key={sign.name} onClick={() => onChoose(sign.name)}>
-            <AstralSign symbol={sign.symbol} />
+            <span className="elegant-zodiac">{sign.symbol}</span>
             <strong>{sign.name}</strong>
           </button>
         ))}

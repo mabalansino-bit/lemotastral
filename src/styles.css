@@ -400,130 +400,55 @@ body::after{
 }
 
 
-/* V10 complète — corrections ciblées uniquement */
-.oracle-title,
-.oracle-title-line,
-.oracle-call-title,
-.oracleCall,
-.oracleTitle,
-.consult-title{
-  font-size:clamp(15px, 3.9vw, 19px) !important;
+/* Version finale : modifications strictement demandées */
+.oracle-invite strong,
+.oracle-invite em{
+  font-size:clamp(15px,3.6vw,21px) !important;
+  line-height:1.45 !important;
   font-style:italic !important;
-  line-height:1.35 !important;
+  letter-spacing:.06em !important;
 }
-
-.oracle-subtitle,
-.indice,
-.hint,
-.category,
-.category-label{
-  font-size:clamp(14px, 3.6vw, 18px) !important;
-  line-height:1.35 !important;
+.oracle-invite strong{
+  margin-bottom:4px !important;
+  text-transform:uppercase !important;
 }
-
-.grammar-mask{
-  display:inline-block;
+.grammar-visible{display:none!important;}
+.grammar-revealed{
+  color:var(--gold2);
+  font-family:'Cinzel',serif;
+  font-size:.74em;
+  letter-spacing:.05em;
+  white-space:nowrap;
+}
+.grammar-bar{
+  min-width:5.8em !important;
+  height:.72em !important;
   color:transparent !important;
-  background:linear-gradient(90deg, rgba(168,120,255,.70), rgba(216,194,255,.55)) !important;
-  border-radius:999px;
-  padding:0 .65em;
-  line-height:1.05;
-  vertical-align:middle;
-  min-width:5.6em;
-  box-shadow:0 0 14px rgba(183,150,255,.16);
+  background:linear-gradient(90deg,rgba(114,75,186,.82),rgba(132,82,206,.72)) !important;
+  border-radius:999px !important;
+  display:inline-block !important;
+  vertical-align:baseline !important;
 }
-
-.astral-sign-symbol{
-  width:42px;
-  height:42px;
-  display:inline-grid;
-  place-items:center;
-  border-radius:50%;
-  color:#c7b5ff;
-  font-family:'Cinzel', serif;
-  font-size:1.75rem;
-  text-shadow:
-    0 0 10px rgba(199,181,255,.85),
-    0 0 24px rgba(199,181,255,.28);
-  background:
-    radial-gradient(circle at 50% 45%, rgba(199,181,255,.13), transparent 62%);
+.zodiac-medallion,
+.elegant-zodiac,
+.result-winner .elegant-sign{
+  font-family:'Times New Roman','Cinzel',serif !important;
+  font-style:normal !important;
+  font-weight:400 !important;
+  line-height:1 !important;
+  color:#d8c9ff !important;
+  text-shadow:0 0 10px rgba(199,181,255,.78),0 0 24px rgba(199,181,255,.25) !important;
 }
-.astral-sign-symbol span{
-  display:block;
-  transform:translateY(-1px);
+.zodiac-medallion{
+  font-size:2.05rem !important;
+  border-color:rgba(199,181,255,.48) !important;
+  background:radial-gradient(circle at 45% 35%,rgba(199,181,255,.18),rgba(18,10,36,.32) 48%,rgba(3,3,10,.66)) !important;
 }
-.astral-sign-symbol.small{
-  width:32px;
-  height:32px;
-  font-size:1.32rem;
+.elegant-zodiac{
+  font-size:2.15rem !important;
 }
-
-.results-card{
-  width:min(820px,100%);
-  margin:22px auto 42px;
-  padding:26px 18px;
-  border:1px solid rgba(212,166,78,.28);
-  border-radius:28px;
-  background:linear-gradient(180deg,rgba(10,8,24,.88),rgba(3,3,10,.78));
+.result-winner .elegant-sign{
+  font-size:1.55rem !important;
 }
-.results-card h1{
-  text-align:center;
-  color:var(--gold2, #f4d892);
-  font-family:'Cinzel',serif;
-  margin:0 0 10px;
-}
-.results-intro{
-  text-align:center;
-  color:rgba(247,239,217,.68);
-  font-family:'Crimson Text',serif;
-  font-size:1.05rem;
-  margin:0 0 18px;
-}
-.results-table{
-  display:grid;
-  gap:10px;
-}
-.results-row{
-  display:grid;
-  grid-template-columns:1fr 1fr 1.45fr 1fr;
-  gap:10px;
-  align-items:center;
-  padding:12px 14px;
-  border:1px solid rgba(212,166,78,.16);
-  border-radius:18px;
-  background:rgba(255,255,255,.018);
-  color:rgba(247,239,217,.86);
-}
-.results-row.head{
-  color:#c7b5ff;
-  font-family:'Cinzel',serif;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  font-size:.72rem;
-}
-.results-row strong{
-  color:var(--gold2, #f4d892);
-  font-family:'Cinzel',serif;
-  letter-spacing:.06em;
-}
-.winner-sign{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:var(--gold2, #f4d892);
-  font-weight:700;
-}
-
-@media(max-width:680px){
-  .results-row{
-    grid-template-columns:1fr;
-    text-align:center;
-    gap:6px;
-  }
-  .results-row.head{
-    display:none;
-  }
-  .winner-sign{
-    justify-content:center;
-  }
-}
+.results-table{gap:10px!important;}
+.result-history-row:nth-child(n+9){display:none;}
