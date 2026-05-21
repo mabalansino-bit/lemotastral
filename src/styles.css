@@ -400,55 +400,20 @@ body::after{
 }
 
 
-/* Version finale : modifications strictement demandées */
-.oracle-invite strong,
-.oracle-invite em{
-  font-size:clamp(15px,3.6vw,21px) !important;
-  line-height:1.45 !important;
-  font-style:italic !important;
-  letter-spacing:.06em !important;
+/* V9 : bouton de partage social, sans modifier le reste de l’interface */
+.social-share-button{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
 }
-.oracle-invite strong{
-  margin-bottom:4px !important;
-  text-transform:uppercase !important;
+.social-share-button span{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  display:inline-grid;
+  place-items:center;
+  border:1px solid currentColor;
+  font-size:14px;
+  line-height:1;
 }
-.grammar-visible{display:none!important;}
-.grammar-revealed{
-  color:var(--gold2);
-  font-family:'Cinzel',serif;
-  font-size:.74em;
-  letter-spacing:.05em;
-  white-space:nowrap;
-}
-.grammar-bar{
-  min-width:5.8em !important;
-  height:.72em !important;
-  color:transparent !important;
-  background:linear-gradient(90deg,rgba(114,75,186,.82),rgba(132,82,206,.72)) !important;
-  border-radius:999px !important;
-  display:inline-block !important;
-  vertical-align:baseline !important;
-}
-.zodiac-medallion,
-.elegant-zodiac,
-.result-winner .elegant-sign{
-  font-family:'Times New Roman','Cinzel',serif !important;
-  font-style:normal !important;
-  font-weight:400 !important;
-  line-height:1 !important;
-  color:#d8c9ff !important;
-  text-shadow:0 0 10px rgba(199,181,255,.78),0 0 24px rgba(199,181,255,.25) !important;
-}
-.zodiac-medallion{
-  font-size:2.05rem !important;
-  border-color:rgba(199,181,255,.48) !important;
-  background:radial-gradient(circle at 45% 35%,rgba(199,181,255,.18),rgba(18,10,36,.32) 48%,rgba(3,3,10,.66)) !important;
-}
-.elegant-zodiac{
-  font-size:2.15rem !important;
-}
-.result-winner .elegant-sign{
-  font-size:1.55rem !important;
-}
-.results-table{gap:10px!important;}
-.result-history-row:nth-child(n+9){display:none;}
