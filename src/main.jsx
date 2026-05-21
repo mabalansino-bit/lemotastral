@@ -108,7 +108,10 @@ function Home(){
 
   function shareResults(){
     const selected = selectedSign || "Mon signe";
-    const text = `Le Mot Astral ✨\nMot trouvé : ${word.toUpperCase()}\nSigne : ${selected}\nTentatives : ${guesses.length}\n${window.location.href}`;
+    const text = `Le Mot Astral ✨
+${selectedSign || "Mon signe"} a percé l’Oracle en ${attempts || guesses?.length || 0} tentatives.
+Saurez-vous révéler le mot du jour ?
+${window.location.origin}`;
     if (navigator.share) {
       navigator.share({ title: "Le Mot Astral", text }).catch(() => {});
     } else {
@@ -152,7 +155,13 @@ function Home(){
     });
   }
   const status = won ? {title:"Les astres se sont alignés", text:"Le mot du jour s'est révélé."} : progress > 70 ? {title:"La révélation approche…", text:"Les contours du mot se dessinent dans le ciel."} : progress > 35 ? {title:"Les astres s'alignent…", text:"Une piste se dessine dans le ciel."} : {title:"Le mystère demeure…", text:"Consultez l'oracle pour dévoiler la définition."};
-  if(view==="rules") return <Content title="Règles du jeu" setView={setView}><p>La catégorie du mot est révélée dès le départ sous forme d’indice.</p><p>Le mot mystère apparaît sous forme de cercles, un cercle par lettre.</p><p>Chaque proposition peut révéler un mot de la définition. Les mots proches apparaissent en violet.</p><p>La lune se remplit à mesure que l’oracle se dévoile.</p></Content>;
+  if(view==="rules") return <Content title="Règles du jeu" setView={setView}>
+<p>Défends ton signe astrologique et découvre le mot du jour dans l’univers de l’ésotérisme et de l’astrologie en un minimum de tentatives.</p>
+<p>Consulte l’Oracle en proposant des mots qui révéleront peu à peu la définition cachée du mot mystère.</p>
+<p>Chaque jour, un indice t’est donné pour t’orienter dans un domaine de l’ésotérisme.</p>
+<p>Tentatives illimitées.</p>
+<p>Une fois le mot découvert, partage ton score et fais briller ton signe.</p>
+<p>La catégorie du mot est révélée dès le départ sous forme d’indice.</p><p>Le mot mystère apparaît sous forme de cercles, un cercle par lettre.</p><p>Chaque proposition peut révéler un mot de la définition. Les mots proches apparaissent en violet.</p><p>La lune se remplit à mesure que l’oracle se dévoile.</p></Content>;
   if(view==="results") return <Results setView={setView}/>;
   if(view==="about") return <Content title="À propos" setView={setView}><p>Le Mot Astral est un jeu quotidien de définition cachée, d’intuition et de compétition entre signes.</p></Content>;
 
@@ -160,7 +169,13 @@ function Home(){
 
   return <main className="page">
     <nav className="top-menu">
-      <button onClick={()=>setView("rules")}>Règles du jeu</button>
+      <button onClick={()=>setView("rules")}>Règles du jeu
+<p>Défends ton signe astrologique et découvre le mot du jour dans l’univers de l’ésotérisme et de l’astrologie en un minimum de tentatives.</p>
+<p>Consulte l’Oracle en proposant des mots qui révéleront peu à peu la définition cachée du mot mystère.</p>
+<p>Chaque jour, un indice t’est donné pour t’orienter dans un domaine de l’ésotérisme.</p>
+<p>Tentatives illimitées.</p>
+<p>Une fois le mot découvert, partage ton score et fais briller ton signe.</p>
+</button>
       <button onClick={()=>setView("results")}>Résultats</button>
       <button onClick={()=>setView("about")}>À propos</button>
       <button onClick={()=>setView("home")}>Contact</button>
@@ -191,7 +206,7 @@ function Home(){
       <p>Les astres se sont alignés</p>
       <h2>{word.toUpperCase()}</h2>
       <span>{daily.grammar} · {daily.category}</span>
-      <button onClick={shareResults}>Partager vos résultats</button>
+      <button onClick={shareResults}>📸 💬 Partager mes résultats</button>
       {shareNotice && <em>{shareNotice}</em>}
     </section>}
 
@@ -214,32 +229,9 @@ function Home(){
 
     <section className="proposal-zone">
       <div className="preview-title">Vos propositions</div>
-      {guesses.length===0 ? <p className="empty">Aucune consultation pour le moment.</p> : <div className="guesses clean-list">{guesses.map((g,i)=><div key={`${g.word}-${i}`} className={`guess-row2 ${g.kind}`}><span>{g.word.toUpperCase()}</span><em>{g.kind==="victory"?"Mot révélé":g.kind==="exact"?"Mot de la définition":g.kind==="near"?"Piste approchante":"Astres silencieux"}</em></div>)}</div>}
-    </section>
-    <footer className="footer"><span>Le Mot Astral, inspiré librement de Pédantix.</span></footer>
-  </main>;
-}
-
-function SignChoice({onChoose}){
-  return <main className="page sign-choice-page">
-    <section className="sign-choice-card">
-      <div className="sign-star">✦</div>
-      <h1>Choisissez votre signe</h1>
-      <p>Il représentera votre intuition dans l’oracle.</p>
-      <div className="sign-options">
-        {ZODIAC_SIGNS.map(sign => (
-          <button key={sign.name} onClick={() => onChoose(sign.name)}>
-            <span className="elegant-zodiac">{sign.symbol}</span>
-            <strong>{sign.name}</strong>
-          </button>
-        ))}
-      </div>
-      <button className="enter-oracle" onClick={() => onChoose("Non renseigné")}>Entrer dans l’oracle</button>
-    </section>
-  </main>
-}
-
-function Content({title,children,setView}){return <main className="page"><nav className="top-menu"><button onClick={()=>setView("home")}>Accueil</button><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button></nav><section className="content-page"><h1>{title}</h1>{children}<button className="back-home" onClick={()=>setView("home")}>Retour à l’oracle</button></section></main>}
-function Results({setView}){return <main className="page"><nav className="top-menu"><button onClick={()=>setView("home")}>Accueil</button><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button></nav><section className="content-page results-page"><h1>Résultats</h1><p className="results-intro">Les derniers mots révélés par l’oracle.</p><div className="results-table"><div className="results-head"><span>Date</span><span>Mot</span><span>Signe vainqueur</span></div>{RESULT_HISTORY.map((r,i)=><div className={`result-history-row ${i===0?"winner-row":""}`} key={`${r.date}-${r.mot}`}><span className="result-date">{r.date}</span><span className="result-word">{r.mot}</span><span className="result-winner"><span className="zodiac-medallion elegant-sign">{r.sign.symbol}</span><strong>{r.sign.name}</strong></span></div>)}</div><button className="back-home" onClick={()=>setView("home")}>Retour à l’oracle</button></section></main>}
+      {guesses.length===0 ? <p className="empty">Aucune consultation pour le moment.</p> : <div className="guesses clean-list">{guesses.map((g,i)=><div key={`${g.word}-${i}`} className={`guess-row2 ${g.kind}`Le Mot Astral ✨
+${selectedSign || "Mon signe"} a percé l’Oracle en ${attempts || guesses?.length || 0} tentatives.
+Saurez-vous révéler le mot du jour ?
+${window.location.origin}`result-history-row ${i===0?"winner-row":""}`} key={`${r.date}-${r.mot}`}><span className="result-date">{r.date}</span><span className="result-word">{r.mot}</span><span className="result-winner"><span className="zodiac-medallion elegant-sign">{r.sign.symbol}</span><strong>{r.sign.name}</strong></span></div>)}</div><button className="back-home" onClick={()=>setView("home")}>Retour à l’oracle</button></section></main>}
 
 createRoot(document.getElementById("root")).render(<Home/>);
