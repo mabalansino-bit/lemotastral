@@ -1,6 +1,1 @@
-# Le Mot Astral — vraie V2
-
-Version Vite + React prête pour Vercel.
-
-Vercel : Framework Vite, Build Command `npm run build`, Output Directory `dist`, Install Command `npm install`.
-Le Mot Astral — V4 officielle avec mot quotidien automatique. Déployer avec Vercel/Vite.
+Le Mot Astral V6 — V1 greffée : design V1 conservé, ordre demandé, mot quotidien, définition V6. Déploiement Vercel : Framework Vite, build npm run build, output dist.
