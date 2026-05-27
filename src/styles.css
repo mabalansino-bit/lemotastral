@@ -932,3 +932,19 @@ body::after{
   .v12-attempt-row small{grid-column:2 / 3}
   .v12-attempt-row b{grid-column:3 / 4}
 }
+
+
+/* Correctif V12 mobile */
+.guess-form input{
+  font-size:18px !important;
+}
+@media(max-width:680px){
+  .guess-form input{
+    font-size:15px !important;
+    padding-left:14px !important;
+  }
+  .guess-form button{
+    font-size:11px !important;
+    padding:0 13px !important;
+  }
+}

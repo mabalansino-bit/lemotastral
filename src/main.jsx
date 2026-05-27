@@ -23,7 +23,27 @@ const ORACLE_DAYS = [
     word:"voyance",
     image:"/cards/voyance.png",
     clue:"Certains messages ne passent pas par les mots.",
-    close:{ voyante:5, clairvoyance:4, medium:4, médium:4, tarot:3, oracle:3, intuition:3, esprit:3, carte:2, lune:2, boule:2 }
+    close:{
+      voyance:5, voyances:5,
+
+      divination:4, clairvoyance:4, voyante:4, voyant:4, medium:4, médium:4,
+      prediction:4, prédiction:4, prescience:4, oracle:4, prophétie:4, prophetie:4,
+      prédire:4, predire:4, deviner:4,
+
+      tarot:3, tarots:3, cartes:3, carte:3, tirage:3, boule:3, cristal:3,
+      pendule:3, intuition:3, visions:3, vision:3, avenir:3, futur:3,
+      destin:3, présage:3, presage:3, signe:3, signes:3, message:3, messages:3,
+
+      ésotérisme:2, esoterisme:2, magie:2, mystère:2, mystere:2, occultisme:2,
+      occultes:2, occulte:2, spirituel:2, spiritualité:2, spiritualite:2,
+      âme:2, ame:2, esprit:2, esprits:2, invisible:2, perception:2,
+      pressentiment:2, pressentiments:2, guide:2, guidance:2, rituel:2,
+      lune:2, astres:2, astral:2,
+
+      nuit:1, rêve:1, reve:1, rêves:1, reves:1, secret:1, secrets:1,
+      symbole:1, symboles:1, lumière:1, lumiere:1, ombre:1, ombres:1,
+      énergie:1, energie:1, aura:1
+    }
   },
 ];
 
@@ -58,9 +78,9 @@ function scoreDetails(score){
   const map = {
     0:{pct:4,label:"Inconnue",moon:"🌑"},
     1:{pct:18,label:"Lointaine",moon:"🌒"},
-    2:{pct:32,label:"Novice",moon:"🌓"},
-    3:{pct:50,label:"Initié",moon:"🌔"},
-    4:{pct:85,label:"Voyant",moon:"🌖"},
+    2:{pct:32,label:"Voisine",moon:"🌓"},
+    3:{pct:50,label:"Proche",moon:"🌔"},
+    4:{pct:85,label:"Très proche",moon:"🌖"},
     5:{pct:100,label:"Révélé",moon:"🌕"}
   };
   return map[score] || map[0];
@@ -271,7 +291,7 @@ https://www.lemotastral.fr/`;
     </section>
 
     <div className="guess-form inline-guess">
-      <input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder="Interprétez la carte en un mot..." autoComplete="off" autoCorrect="off" spellCheck={false}/>
+      <input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder="Proposez un mot..." autoComplete="off" autoCorrect="off" spellCheck={false}/>
       <button onClick={handleSubmit}>Proposer 🔮</button>
     </div>
     {error && <p className="error">{error}</p>}
