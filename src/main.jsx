@@ -38,9 +38,9 @@ const RESULT_HISTORY = [
 ];
 
 const PODIUM = [
-  { sign:ZODIAC_SIGNS[7], score:84 },
-  { sign:ZODIAC_SIGNS[9], score:76 },
-  { sign:ZODIAC_SIGNS[4], score:68 },
+  { sign:ZODIAC_SIGNS[7], avg:"4,2", width:78 },
+  { sign:ZODIAC_SIGNS[4], avg:"5,1", width:64 },
+  { sign:ZODIAC_SIGNS[11], avg:"5,8", width:52 },
 ];
 
 function normalize(s){
@@ -53,6 +53,18 @@ function todayIndex(){
   return ((diff % ORACLE_DAYS.length)+ORACLE_DAYS.length)%ORACLE_DAYS.length;
 }
 function getYesterdayWinner(){ return ZODIAC_SIGNS[7]; }
+
+function scoreDetails(score){
+  const map = {
+    0:{pct:4,label:"Inconnue",moon:"🌑"},
+    1:{pct:18,label:"Lointaine",moon:"🌒"},
+    2:{pct:32,label:"Novice",moon:"🌓"},
+    3:{pct:50,label:"Initié",moon:"🌔"},
+    4:{pct:85,label:"Voyant",moon:"🌖"},
+    5:{pct:100,label:"Révélé",moon:"🌕"}
+  };
+  return map[score] || map[0];
+}
 
 function SignIcon({sign, small=false}){
   return <span className={small ? "v10-sign small" : "v10-sign"}>{sign.symbol}</span>
@@ -106,7 +118,8 @@ function Results({setView, selectedSign}){
           <strong>{index+1}</strong>
           <SignIcon sign={item.sign} small />
           <span>{item.sign.name}</span>
-          <i style={{width:item.score+"%"}} />
+          <i style={{width:item.width+"%"}} />
+          <small>{item.avg}</small>
         </div>
       ))}
       <div className="player-rank">
@@ -213,19 +226,44 @@ https://www.lemotastral.fr/`;
       <button onClick={()=>setView("home")}>Contact</button>
     </nav>
 
-    <section className="yesterday-card">
-      <SignIcon sign={winner} small />
-      <div><strong>Hier, {winner.plural} ont été les plus intuitifs.</strong><span>Quel signe brillera aujourd’hui ?</span></div>
+    <section className="v12-astro-board">
+      <div className="v12-yesterday">
+        <SignIcon sign={winner} />
+        <div>
+          <strong>Hier, {winner.plural} ont été les plus intuitifs.</strong>
+          <span>Quel signe brillera aujourd’hui ?</span>
+        </div>
+      </div>
+
+      <div className="v12-podium">
+        <h2>Podium astral — en direct <b aria-hidden="true">⌁</b></h2>
+        {PODIUM.map((item, index)=>(
+          <div className="v12-podium-row" key={item.sign.name}>
+            <strong>{index+1}</strong>
+            <SignIcon sign={item.sign} small />
+            <span>{item.sign.name}</span>
+            <i><em style={{width:item.width+"%"}} /></i>
+            <small>{item.avg}</small>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section className="v12-player-sign">
+      <SignIcon sign={ZODIAC_SIGNS.find(s=>s.name===selectedSign) || ZODIAC_SIGNS[0]} />
+      <div>
+        <strong>Vous êtes {selectedSign}</strong>
+        <span>Chaque tentative peut faire gagner votre signe.</span>
+      </div>
     </section>
 
     <div className="brand-clouds" aria-hidden="true" />
     <h1 className="logo">Le Mot Astral</h1>
     <div className="moon-phases" aria-hidden="true">◐  ◑  ●  ◒  ◓</div>
-    <p className="subtitle">L'ORACLE VOUS MET AU DÉFI</p>
 
     <section className="oracle-invite v10-oracle-title">
       <strong>Interprétez la carte du jour</strong>
-      <em>{daily.clue}</em>
+      <p>Trouvez le mot du jour en interprétant la carte.<br/>Fiez-vous à votre intuition et proposez des mots.<br/>Tentatives illimitées.</p>
     </section>
 
     <section className="v10-card-wrap">
@@ -233,15 +271,13 @@ https://www.lemotastral.fr/`;
     </section>
 
     <div className="guess-form inline-guess">
-      <input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder="Consultez l'oracle…" autoComplete="off" autoCorrect="off" spellCheck={false}/>
+      <input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder="Interprétez la carte en un mot..." autoComplete="off" autoCorrect="off" spellCheck={false}/>
       <button onClick={handleSubmit}>Proposer 🔮</button>
     </div>
     {error && <p className="error">{error}</p>}
 
-    <section className="v10-moons" aria-label="Proximité de votre proposition">
-      {[1,2,3,4,5].map(i=><span key={i} className={(won || score>=i) ? "lit" : ""}>{(won || score>=i) ? "●" : "○"}</span>)}
-    </section>
     {guesses.length>0 && !won && <p className="v10-feedback">{score>=4 ? "Votre intuition brûle très fort." : score>=3 ? "L’oracle s’éveille." : score>0 ? "Une lueur apparaît." : "Les astres restent silencieux."}</p>}
+    {guesses.length===0 && !won && <p className="v10-feedback">Les astres restent silencieux.</p>}
 
     {won && <section className="victory-banner" aria-live="polite">
       <div className="star-fireworks" aria-hidden="true"><i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i><i>✶</i></div>
@@ -251,10 +287,21 @@ https://www.lemotastral.fr/`;
       {shareNotice && <em>{shareNotice}</em>}
     </section>}
 
-    <section className="attempts">
+    {guesses.length > 0 && <section className="attempts v12-attempts">
       <h2>Vos tentatives</h2>
-      <div>{guesses.length ? guesses.map(g=><span key={g.word} className={`try-score-${g.score}`}>{g.word}</span>) : <em>Aucune tentative pour le moment.</em>}</div>
-    </section>
+      <div className="v12-attempt-list">
+        {guesses.map(g=>{
+          const detail = scoreDetails(g.score);
+          return <div className="v12-attempt-row" key={g.word}>
+            <span className="attempt-moon">{detail.moon}</span>
+            <strong>{g.word}</strong>
+            <i><em style={{width:detail.pct+"%"}} /></i>
+            <small>{detail.label}</small>
+            <b>{detail.pct}%</b>
+          </div>
+        })}
+      </div>
+    </section>}
     <footer>Le Mot Astral, inspiré librement de Pédantix.</footer>
   </main>
 }

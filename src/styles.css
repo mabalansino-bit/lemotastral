@@ -674,3 +674,261 @@ body::after{
     justify-content:center;
   }
 }
+
+
+
+/* V12 — version complète validée */
+.v12-astro-board{
+  width:min(760px,100%);
+  margin:0 auto 18px;
+  padding:18px 16px;
+  border:1px solid rgba(212,166,78,.22);
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(10,8,24,.80),rgba(3,3,10,.62));
+  box-shadow:inset 0 0 28px rgba(0,0,0,.22),0 0 28px rgba(199,181,255,.06);
+}
+.v12-yesterday{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:4px 2px 16px;
+}
+.v12-yesterday strong{
+  display:block;
+  color:rgba(244,216,146,.93);
+  font-size:.78rem;
+  letter-spacing:.12em;
+  line-height:1.45;
+  text-transform:uppercase;
+}
+.v12-yesterday span{
+  display:block;
+  margin-top:5px;
+  font-family:"Crimson Text",serif;
+  color:rgba(247,239,217,.76);
+  font-size:clamp(22px,5.3vw,32px);
+  line-height:1.08;
+}
+.v12-podium{
+  margin-top:2px;
+  padding:16px 12px 12px;
+  border:1px solid rgba(212,166,78,.16);
+  border-radius:22px;
+  background:rgba(3,3,10,.36);
+}
+.v12-podium h2{
+  margin:0 0 13px;
+  color:var(--gold2);
+  font-family:"Cinzel",serif;
+  font-size:.88rem;
+  font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.v12-podium h2 b{
+  color:var(--gold2);
+  margin-left:6px;
+  font-weight:700;
+}
+.v12-podium-row{
+  display:grid;
+  grid-template-columns:34px 40px minmax(92px,1fr) minmax(90px,45%) 38px;
+  gap:10px;
+  align-items:center;
+  margin:11px 0;
+}
+.v12-podium-row > strong{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#170d04;
+  background:linear-gradient(135deg,#ffe7a6,#d4a64e);
+  font-family:"Cinzel",serif;
+  font-size:.9rem;
+}
+.v12-podium-row:nth-of-type(3) > strong{
+  background:linear-gradient(135deg,#f5f3ff,#b9b2c9);
+}
+.v12-podium-row:nth-of-type(4) > strong{
+  background:linear-gradient(135deg,#e7b985,#9b633a);
+}
+.v12-podium-row span{
+  color:rgba(247,239,217,.86);
+  font-family:"Cinzel",serif;
+  font-size:clamp(.86rem,3.6vw,1.05rem);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.v12-podium-row i{
+  height:9px;
+  border-radius:999px;
+  background:rgba(0,0,0,.42);
+  border:1px solid rgba(199,181,255,.10);
+  overflow:hidden;
+}
+.v12-podium-row i em{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  box-shadow:0 0 12px rgba(244,216,146,.24);
+}
+.v12-podium-row:nth-of-type(n+3) i em{
+  background:linear-gradient(90deg,#7d5ed9,#c7b5ff);
+}
+.v12-podium-row small{
+  color:rgba(247,239,217,.82);
+  font-family:"Crimson Text",serif;
+  font-size:1.25rem;
+  text-align:right;
+}
+.v12-player-sign{
+  width:min(760px,100%);
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin:0 auto 30px;
+  padding:15px 18px;
+  border:1px solid rgba(212,166,78,.18);
+  border-radius:24px;
+  background:rgba(3,3,10,.36);
+  box-shadow:inset 0 0 20px rgba(0,0,0,.16);
+}
+.v12-player-sign strong{
+  display:block;
+  color:rgba(244,216,146,.94);
+  font-size:.86rem;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+.v12-player-sign span{
+  display:block;
+  margin-top:5px;
+  font-family:"Crimson Text",serif;
+  color:rgba(247,239,217,.76);
+  font-size:1.15rem;
+}
+.v10-oracle-title{
+  margin-top:8px !important;
+}
+.v10-oracle-title strong{
+  font-size:clamp(20px,4.8vw,28px) !important;
+  line-height:1.25 !important;
+  letter-spacing:.18em !important;
+}
+.v10-oracle-title p{
+  margin-top:14px;
+  color:rgba(247,239,217,.80);
+  font-family:"Crimson Text",serif;
+  font-size:clamp(20px,4.9vw,29px);
+  line-height:1.22;
+}
+.subtitle{display:none !important;}
+.v10-oracle-title em{display:none !important;}
+.v10-moons{display:none !important;}
+.inline-guess{
+  margin:18px auto 10px !important;
+}
+.v10-feedback{
+  margin:16px 0 22px !important;
+}
+.v12-attempts{
+  width:min(760px,100%);
+  margin:8px auto 24px;
+}
+.v12-attempts h2{
+  color:var(--text);
+  font-size:clamp(28px,7vw,44px);
+  line-height:1.1;
+  margin-bottom:12px;
+}
+.v12-attempt-list{
+  width:100%;
+  display:grid !important;
+  gap:12px;
+}
+.v12-attempt-row{
+  display:grid;
+  grid-template-columns:44px minmax(100px,1fr) minmax(70px,28%) 90px 58px;
+  align-items:center;
+  gap:10px;
+  padding:12px 12px;
+  border:1px solid rgba(199,181,255,.16);
+  border-radius:14px;
+  background:rgba(3,3,10,.48);
+}
+.v12-attempt-row .attempt-moon{
+  font-size:1.7rem;
+  filter:drop-shadow(0 0 8px rgba(244,216,146,.16));
+}
+.v12-attempt-row strong{
+  color:rgba(247,239,217,.88);
+  font-family:"Cinzel",serif;
+  font-size:clamp(.9rem,4vw,1.25rem);
+  text-transform:uppercase;
+}
+.v12-attempt-row i{
+  height:9px;
+  border-radius:999px;
+  background:rgba(0,0,0,.40);
+  border:1px solid rgba(199,181,255,.14);
+  overflow:hidden;
+}
+.v12-attempt-row i em{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#6d54cf,#c7b5ff);
+}
+.v12-attempt-row small{
+  color:#8fa1ff;
+  font-family:"Cinzel",serif;
+  font-size:.7rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.v12-attempt-row b{
+  color:var(--gold2);
+  font-family:"Crimson Text",serif;
+  font-size:1.3rem;
+  text-align:right;
+}
+.v12-card-wrap img,
+.v10-card-wrap img{
+  display:block;
+}
+
+@media(max-width:680px){
+  .page{padding-left:14px;padding-right:14px}
+  .v12-astro-board{padding:16px 14px;border-radius:24px}
+  .v12-yesterday{gap:12px}
+  .v12-yesterday .v10-sign{width:48px;height:48px;font-size:1.9rem}
+  .v12-yesterday strong{font-size:.68rem;letter-spacing:.11em}
+  .v12-podium{padding:14px 10px 10px}
+  .v12-podium h2{font-size:.74rem;letter-spacing:.16em}
+  .v12-podium-row{
+    grid-template-columns:30px 34px minmax(74px,1fr) minmax(70px,35%) 34px;
+    gap:7px;
+  }
+  .v12-podium-row > strong{width:25px;height:25px;font-size:.78rem}
+  .v12-podium-row small{font-size:1.08rem}
+  .v12-player-sign{padding:13px 14px;border-radius:22px}
+  .v12-player-sign .v10-sign{width:50px;height:50px;font-size:2rem}
+  .v12-player-sign strong{font-size:.72rem}
+  .v12-player-sign span{font-size:1.05rem}
+  .v10-card-wrap{margin-top:14px}
+  .guess-form input{font-size:18px}
+  .guess-form button{font-size:12px;padding:0 16px}
+  .v12-attempt-row{
+    grid-template-columns:36px 1fr 54px;
+    gap:8px;
+  }
+  .v12-attempt-row i{
+    grid-column:2 / -1;
+    width:100%;
+  }
+  .v12-attempt-row small{grid-column:2 / 3}
+  .v12-attempt-row b{grid-column:3 / 4}
+}
