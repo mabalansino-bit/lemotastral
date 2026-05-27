@@ -1,16 +1,14 @@
-Le Mot Astral — V12 complète prête à déployer
+Le Mot Astral — V12 avec proximités améliorées
 
-Basée sur la vraie V11 fonctionnelle avec :
-- src/
-- public/
-- package.json
-- vite.config.js
-- carte Voyance validée dans public/cards/voyance.png
-- bloc compétition en haut
-- phrase 'Quel signe brillera aujourd’hui ?'
-- podium astral en direct avec barres compactes
-- bloc 'Vous êtes [signe]'
-- règles clarifiées au-dessus de la carte
-- suppression de l’indice violet redondant
-- suppression des ronds inutiles sous l’input
-- tentatives avec lune + pourcentage + jauge.
+Basée sur la V12 corrigée.
+
+Amélioration principale :
+- table de proximité beaucoup plus riche pour le mot VOYANCE ;
+- synonymes évidents corrigés : divination, clairvoyance, oracle, médium, prédiction ;
+- catégories de proximité :
+  100% Révélé
+  85% Très proche
+  50% Proche
+  32% Voisine
+  18% Lointaine
+  4% Inconnue
