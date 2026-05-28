@@ -1,1 +1,1 @@
-Le Mot Astral — V14 visions : nouveau gameplay en 6 visions, couleurs astrales, carte Voyance intégrée, podium en direct stylisé.
+Le Mot Astral — V15 Passage. Basée sur la V14 : mot PASSAGE, carte validée, podium simplifié avec 🥇🥈🥉 et signe en direct stylisé.
