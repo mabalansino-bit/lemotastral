@@ -18,76 +18,71 @@ const ZODIAC_SIGNS = [
   { name:"Poissons", plural:"les Poissons", symbol:"♓︎" },
 ];
 
-const ORACLE_DAYS = [
-  {
-    word:"voyance",
-    image:"/cards/voyance.png",
-    clue:"Certains messages ne passent pas par les mots.",
-    close:{
-      voyance:5, voyances:5,
+const ORACLE_DAYS = [{ word:"voyance", image:"/cards/voyance.png", clue:"Elle voit avant les autres." }];
 
-      divination:4, clairvoyance:4, voyante:4, voyant:4, medium:4, médium:4,
-      prediction:4, prédiction:4, prescience:4, oracle:4, prophétie:4, prophetie:4,
-      prédire:4, predire:4, deviner:4,
-
-      tarot:3, tarots:3, cartes:3, carte:3, tirage:3, boule:3, cristal:3,
-      pendule:3, intuition:3, visions:3, vision:3, avenir:3, futur:3,
-      destin:3, présage:3, presage:3, signe:3, signes:3, message:3, messages:3,
-
-      ésotérisme:2, esoterisme:2, magie:2, mystère:2, mystere:2, occultisme:2,
-      occultes:2, occulte:2, spirituel:2, spiritualité:2, spiritualite:2,
-      âme:2, ame:2, esprit:2, esprits:2, invisible:2, perception:2,
-      pressentiment:2, pressentiments:2, guide:2, guidance:2, rituel:2,
-      lune:2, astres:2, astral:2,
-
-      nuit:1, rêve:1, reve:1, rêves:1, reves:1, secret:1, secrets:1,
-      symbole:1, symboles:1, lumière:1, lumiere:1, ombre:1, ombres:1,
-      énergie:1, energie:1, aura:1
-    }
-  },
+const PODIUM = [
+  { sign:ZODIAC_SIGNS[7], level:92, aura:"dominant" },
+  { sign:ZODIAC_SIGNS[4], level:76, aura:"strong" },
+  { sign:ZODIAC_SIGNS[11], level:63, aura:"soft" },
 ];
 
 const RESULT_HISTORY = [
-  { date:"20 mai 2026", carte:"Le Passage", sign:ZODIAC_SIGNS[7], avg:"7,4" },
-  { date:"19 mai 2026", carte:"Le Halo", sign:ZODIAC_SIGNS[11], avg:"8,1" },
-  { date:"18 mai 2026", carte:"Le Reflet", sign:ZODIAC_SIGNS[5], avg:"6,8" },
-  { date:"17 mai 2026", carte:"La Passeuse", sign:ZODIAC_SIGNS[3], avg:"9,2" },
-  { date:"16 mai 2026", carte:"La Flamme", sign:ZODIAC_SIGNS[4], avg:"7,9" },
-  { date:"15 mai 2026", carte:"Le Cercle", sign:ZODIAC_SIGNS[6], avg:"8,7" },
-  { date:"14 mai 2026", carte:"Les Arcanes", sign:ZODIAC_SIGNS[9], avg:"6,5" },
-];
-
-const PODIUM = [
-  { sign:ZODIAC_SIGNS[7], avg:"4,2", width:78 },
-  { sign:ZODIAC_SIGNS[4], avg:"5,1", width:64 },
-  { sign:ZODIAC_SIGNS[11], avg:"5,8", width:52 },
+  { date:"20 mai 2026", sign:ZODIAC_SIGNS[7], result:"3 visions" },
+  { date:"19 mai 2026", sign:ZODIAC_SIGNS[11], result:"4 visions" },
+  { date:"18 mai 2026", sign:ZODIAC_SIGNS[5], result:"4 visions" },
 ];
 
 function normalize(s){
-  return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’']/g,"'").replace(/[^a-zœæ'\-\s]/g,"").trim();
+  return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z]/g,"").trim();
 }
 function todayIndex(){
   const start = new Date("2026-01-01T00:00:00+01:00");
-  const now = new Date();
-  const diff = Math.floor((now-start)/86400000);
+  const diff = Math.floor((new Date()-start)/86400000);
   return ((diff % ORACLE_DAYS.length)+ORACLE_DAYS.length)%ORACLE_DAYS.length;
 }
 function getYesterdayWinner(){ return ZODIAC_SIGNS[7]; }
 
-function scoreDetails(score){
-  const map = {
-    0:{pct:4,label:"Inconnue",moon:"🌑"},
-    1:{pct:18,label:"Lointaine",moon:"🌒"},
-    2:{pct:32,label:"Voisine",moon:"🌓"},
-    3:{pct:50,label:"Proche",moon:"🌔"},
-    4:{pct:85,label:"Très proche",moon:"🌖"},
-    5:{pct:100,label:"Révélé",moon:"🌕"}
-  };
-  return map[score] || map[0];
+function SignIcon({sign, small=false}){ return <span className={small ? "v10-sign small" : "v10-sign"}>{sign.symbol}</span> }
+
+function SignalLive(){ return <span className="v14-live" aria-label="en direct"><i></i><b></b><em></em></span> }
+
+function evaluateGuess(guess, target){
+  const g = normalize(guess);
+  const t = normalize(target);
+  const letters = Array.from(g);
+  const targetLetters = Array.from(t);
+  const result = letters.map(letter=>({letter, status:"absent"}));
+  const used = new Array(targetLetters.length).fill(false);
+  letters.forEach((letter, index)=>{
+    if(letter === targetLetters[index]){
+      result[index].status = "correct";
+      used[index] = true;
+    }
+  });
+  letters.forEach((letter, index)=>{
+    if(result[index].status === "correct") return;
+    const found = targetLetters.findIndex((targetLetter, targetIndex)=>targetLetter === letter && !used[targetIndex]);
+    if(found !== -1){
+      result[index].status = "present";
+      used[found] = true;
+    }
+  });
+  return result;
 }
 
-function SignIcon({sign, small=false}){
-  return <span className={small ? "v10-sign small" : "v10-sign"}>{sign.symbol}</span>
+function buildShareText(sign, attempts, won){
+  const rows = attempts.map(attempt => attempt.result.map(cell => cell.status === "correct" ? "🌕" : cell.status === "present" ? "🌘" : "🌑").join("")).join("\n");
+  const n = attempts.length;
+  return `Le Mot Astral ✨
+Signe : ${sign.name} ${sign.symbol}
+
+${rows}
+
+${won ? `J’ai percé l’Oracle en ${n} vision${n>1 ? "s" : ""}.` : "L’Oracle m’a résisté aujourd’hui."}
+
+Sauras-tu faire mieux et faire briller ton signe ?
+
+https://www.lemotastral.fr/`;
 }
 
 function SignChoice({onChoose}){
@@ -97,232 +92,110 @@ function SignChoice({onChoose}){
     <section className="sign-choice">
       <h2>Choisissez votre signe</h2>
       <p>Il représentera votre intuition dans l’oracle.</p>
-      <div className="sign-grid">
-        {ZODIAC_SIGNS.map(sign => (
-          <button key={sign.name} onClick={()=>onChoose(sign.name)}>
-            <SignIcon sign={sign} />
-            <span>{sign.name}</span>
-          </button>
-        ))}
-      </div>
+      <div className="sign-grid">{ZODIAC_SIGNS.map(sign => <button key={sign.name} onClick={()=>onChoose(sign.name)}><SignIcon sign={sign}/><span>{sign.name}</span></button>)}</div>
     </section>
   </main>
 }
 
 function Content({title, children, setView}){
   return <main className="page">
-    <nav className="top-menu">
-      <button onClick={()=>setView("home")}>Accueil</button>
-      <button onClick={()=>setView("rules")}>Règles du jeu</button>
-      <button onClick={()=>setView("results")}>Résultats</button>
-      <button onClick={()=>setView("about")}>À propos</button>
-    </nav>
+    <nav className="top-menu"><button onClick={()=>setView("home")}>Accueil</button><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button><button onClick={()=>setView("about")}>À propos</button></nav>
     <h1 className="logo small-logo">{title}</h1>
     <section className="content-card">{children}</section>
   </main>
 }
 
 function Results({setView, selectedSign}){
-  const player = ZODIAC_SIGNS.find(s=>s.name===selectedSign) || ZODIAC_SIGNS[9];
+  const player = ZODIAC_SIGNS.find(s=>s.name===selectedSign) || ZODIAC_SIGNS[0];
   return <main className="page">
-    <nav className="top-menu">
-      <button onClick={()=>setView("home")}>Accueil</button>
-      <button onClick={()=>setView("rules")}>Règles du jeu</button>
-      <button onClick={()=>setView("about")}>À propos</button>
-    </nav>
+    <nav className="top-menu"><button onClick={()=>setView("home")}>Accueil</button><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("about")}>À propos</button></nav>
     <h1 className="logo small-logo">Résultats</h1>
-    <section className="podium-card">
-      <h2>Podium astral en direct</h2>
-      {PODIUM.map((item, index)=>(
-        <div className="podium-row" key={item.sign.name}>
-          <strong>{index+1}</strong>
-          <SignIcon sign={item.sign} small />
-          <span>{item.sign.name}</span>
-          <i style={{width:item.width+"%"}} />
-          <small>{item.avg}</small>
-        </div>
-      ))}
-      <div className="player-rank">
-        <SignIcon sign={player} small />
-        <p>Votre signe : <strong>{player.name}</strong><br/>Encore quelques intuitions pour rejoindre le podium astral.</p>
-      </div>
-    </section>
-    <section className="content-card">
-      <h2>Historique sur 7 jours</h2>
-      <p className="muted">Le résultat du jour apparaît à minuit, au changement de carte.</p>
-      <div className="history-table">
-        {RESULT_HISTORY.map(r=>(
-          <div key={r.date}>
-            <span>{r.date}</span>
-            <strong>{r.carte}</strong>
-            <em><SignIcon sign={r.sign} small /> {r.sign.name}</em>
-            <small>{r.avg} tentatives</small>
-          </div>
-        ))}
-      </div>
-    </section>
+    <section className="content-card"><h2>Historique</h2><div className="history-table">{RESULT_HISTORY.map(r=><div key={r.date}><span>{r.date}</span><em><SignIcon sign={r.sign} small/> {r.sign.name}</em><small>{r.result}</small></div>)}</div></section>
+    <section className="v12-player-sign"><SignIcon sign={player}/><div><strong>Vous êtes {player.name}</strong><span>Chaque vision peut faire gagner votre signe.</span></div></section>
   </main>
+}
+
+function WordGrid({target, attempts, current}){
+  const targetLength = normalize(target).length;
+  const rows = [];
+  for(let i=0;i<6;i++){
+    if(attempts[i]) rows.push({type:"done", cells:attempts[i].result});
+    else if(i === attempts.length) {
+      const currentLetters = Array.from(normalize(current)).slice(0,targetLength);
+      rows.push({type:"current", cells:Array.from({length:targetLength},(_,idx)=>({letter:currentLetters[idx] || "", status:"empty"}))});
+    } else rows.push({type:"empty", cells:Array.from({length:targetLength},()=>({letter:"", status:"empty"}))});
+  }
+  return <section className="v14-grid">{rows.map((row,rowIndex)=><div className={`v14-grid-row ${row.type}`} key={rowIndex}>{row.cells.map((cell,index)=><span className={`v14-letter ${cell.status}`} key={index}>{cell.letter}</span>)}</div>)}</section>
 }
 
 function Home(){
   const [view,setView] = useState("home");
   const [input,setInput] = useState("");
-  const [guesses,setGuesses] = useState([]);
-  const [won,setWon] = useState(false);
-  const [score,setScore] = useState(0);
+  const [attempts,setAttempts] = useState([]);
   const [error,setError] = useState("");
   const [shareNotice,setShareNotice] = useState("");
   const [selectedSign,setSelectedSign] = useState(()=>localStorage.getItem("motAstralSign") || "");
   const daily = useMemo(()=>ORACLE_DAYS[todayIndex()],[]);
   const winner = getYesterdayWinner();
+  const player = ZODIAC_SIGNS.find(s=>s.name===selectedSign) || ZODIAC_SIGNS[0];
+  const target = normalize(daily.word);
+  const won = attempts.some(attempt => normalize(attempt.word) === target);
+  const lost = attempts.length >= 6 && !won;
 
-  function chooseSign(signName){
-    setSelectedSign(signName);
-    localStorage.setItem("motAstralSign", signName);
-  }
-
-  function classify(raw){
-    const g = normalize(raw);
-    if(g === normalize(daily.word)) return 5;
-    return daily.close[g] || 0;
-  }
-
+  function chooseSign(signName){ setSelectedSign(signName); localStorage.setItem("motAstralSign", signName); }
   function handleSubmit(){
-    const raw = input.trim();
-    if(!raw || won) return;
-    if(guesses.some(g=>normalize(g.word)===normalize(raw))){
-      setError("Vous avez déjà consulté l’oracle pour ce mot.");
-      return;
-    }
+    if(won || lost) return;
+    const guess = normalize(input);
+    if(!guess) return;
+    if(guess.length !== target.length){ setError(`Le mot mystère contient ${target.length} lettres.`); return; }
+    if(attempts.some(a=>normalize(a.word)===guess)){ setError("Vous avez déjà proposé ce mot."); return; }
     setError("");
-    const s = classify(raw);
-    setScore(s);
-    setGuesses(prev=>[{word:raw,score:s},...prev]);
+    setAttempts(prev=>[...prev,{word:guess,result:evaluateGuess(guess, target)}]);
     setInput("");
-    if(s===5) setWon(true);
   }
-
   function shareResults(){
-    const sign = ZODIAC_SIGNS.find(s=>s.name===selectedSign) || ZODIAC_SIGNS[9];
-    const n = Math.max(1, guesses.length);
-    const text = `Le Mot Astral ✨
-Signe : ${sign.name} ${sign.symbol}
-
-J’ai percé l’Oracle en ${n} tentative${n>1 ? "s" : ""}.
-
-Sauras-tu faire mieux et faire briller ton signe ?
-
-https://www.lemotastral.fr/`;
-    if(navigator.share){
-      navigator.share({title:"Le Mot Astral", text}).catch(()=>{});
-    } else {
-      navigator.clipboard?.writeText(text);
-      setShareNotice("Résultat copié.");
-      setTimeout(()=>setShareNotice(""),2200);
-    }
+    const text = buildShareText(player, attempts, won);
+    if(navigator.share) navigator.share({title:"Le Mot Astral", text}).catch(()=>{});
+    else { navigator.clipboard?.writeText(text); setShareNotice("Résultat copié."); setTimeout(()=>setShareNotice(""),2200); }
   }
 
-  if(!selectedSign) return <SignChoice onChoose={chooseSign} />;
-
+  if(!selectedSign) return <SignChoice onChoose={chooseSign}/>;
   if(view==="rules") return <Content title="Règles du jeu" setView={setView}>
-    <p>Défends ton signe astrologique et découvre le mot du jour dans l’univers de l’ésotérisme et de l’astrologie en un minimum de tentatives.</p>
-    <p>Interprète la carte-oracle du jour et son indice, puis propose des mots pour t’approcher du mystère.</p>
-    <p>À chaque tentative, les lunes t’indiquent si ton intuition s’approche de la réponse.</p>
-    <p>Tentatives illimitées.</p>
-    <p>Une fois le mot découvert, partage ton score et fais briller ton signe.</p>
+    <p>Interprétez la carte du jour et trouvez le mot mystère en 6 visions.</p>
+    <p>Une lettre dorée est bien placée. Une lettre violette est présente ailleurs. Une lettre sombre n’est pas dans le mot.</p>
+    <p>Partagez votre score et faites briller votre signe.</p>
   </Content>;
-
-  if(view==="results") return <Results setView={setView} selectedSign={selectedSign} />;
-
-  if(view==="about") return <Content title="À propos" setView={setView}>
-    <p>Le Mot Astral est un jeu quotidien d’intuition visuelle : une carte, un indice, des tentatives et des lunes pour guider votre signe.</p>
-  </Content>;
+  if(view==="results") return <Results setView={setView} selectedSign={selectedSign}/>;
+  if(view==="about") return <Content title="À propos" setView={setView}><p>Le Mot Astral est un jeu quotidien d’intuition visuelle : une carte, un indice, 6 visions et une compétition entre signes.</p></Content>;
 
   return <main className="page">
-    <nav className="top-menu">
-      <button onClick={()=>setView("rules")}>Règles du jeu</button>
-      <button onClick={()=>setView("results")}>Résultats</button>
-      <button onClick={()=>setView("about")}>À propos</button>
-      <button onClick={()=>setView("home")}>Contact</button>
-    </nav>
+    <nav className="top-menu"><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button><button onClick={()=>setView("about")}>À propos</button><button onClick={()=>setView("home")}>Contact</button></nav>
 
     <section className="v12-astro-board">
-      <div className="v12-yesterday">
-        <SignIcon sign={winner} />
-        <div>
-          <strong>Hier, {winner.plural} ont été les plus intuitifs.</strong>
-          <span>Quel signe brillera aujourd’hui ?</span>
-        </div>
-      </div>
-
-      <div className="v12-podium">
-        <h2>Podium astral — en direct <b aria-hidden="true">⌁</b></h2>
-        {PODIUM.map((item, index)=>(
-          <div className="v12-podium-row" key={item.sign.name}>
-            <strong>{index+1}</strong>
-            <SignIcon sign={item.sign} small />
-            <span>{item.sign.name}</span>
-            <i><em style={{width:item.width+"%"}} /></i>
-            <small>{item.avg}</small>
-          </div>
-        ))}
+      <div className="v12-yesterday"><SignIcon sign={winner}/><div><strong>Hier, {winner.plural} ont été les plus intuitifs.</strong><span>Quel signe brillera aujourd’hui ?</span></div></div>
+      <div className="v12-podium v14-podium-orbs">
+        <h2>Podium astral — en direct <SignalLive /></h2>
+        {PODIUM.map((item,index)=><div className="v14-podium-row" key={item.sign.name}><strong>{index+1}</strong><SignIcon sign={item.sign} small/><span>{item.sign.name}</span><div className={`v14-orb ${item.aura}`} style={{"--level":item.level+"%"}}><i /></div></div>)}
       </div>
     </section>
 
-    <section className="v12-player-sign">
-      <SignIcon sign={ZODIAC_SIGNS.find(s=>s.name===selectedSign) || ZODIAC_SIGNS[0]} />
-      <div>
-        <strong>Vous êtes {selectedSign}</strong>
-        <span>Chaque tentative peut faire gagner votre signe.</span>
-      </div>
-    </section>
+    <section className="v12-player-sign"><SignIcon sign={player}/><div><strong>Vous êtes {player.name}</strong><span>Chaque vision peut faire gagner votre signe.</span></div></section>
 
     <div className="brand-clouds" aria-hidden="true" />
     <h1 className="logo">Le Mot Astral</h1>
     <div className="moon-phases" aria-hidden="true">◐  ◑  ●  ◒  ◓</div>
+    <section className="oracle-invite v10-oracle-title"><strong>Interprétez la carte du jour</strong><p>Trouvez le mot mystère en 6 visions.</p></section>
+    <section className="v10-card-wrap"><img src={daily.image} alt="Carte oracle du jour" /></section>
 
-    <section className="oracle-invite v10-oracle-title">
-      <strong>Interprétez la carte du jour</strong>
-      <p>Trouvez le mot du jour en interprétant la carte.<br/>Fiez-vous à votre intuition et proposez des mots.<br/>Tentatives illimitées.</p>
-    </section>
+    <WordGrid target={daily.word} attempts={attempts} current={input} />
+    <div className="v14-vision-count"><span>{6-attempts.length}</span> vision{6-attempts.length>1 ? "s" : ""} restante{6-attempts.length>1 ? "s" : ""}</div>
 
-    <section className="v10-card-wrap">
-      <img src={daily.image} alt="Carte oracle du jour" />
-    </section>
-
-    <div className="guess-form inline-guess">
-      <input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder="Proposez un mot..." autoComplete="off" autoCorrect="off" spellCheck={false}/>
-      <button onClick={handleSubmit}>Proposer 🔮</button>
-    </div>
+    <div className="guess-form inline-guess"><input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder={`${target.length} lettres…`} maxLength={target.length} autoComplete="off" autoCorrect="off" spellCheck={false}/><button onClick={handleSubmit}>Proposer 🔮</button></div>
     {error && <p className="error">{error}</p>}
+    {!won && !lost && <p className="v10-feedback">Les astres restent silencieux.</p>}
 
-    {guesses.length>0 && !won && <p className="v10-feedback">{score>=4 ? "Votre intuition brûle très fort." : score>=3 ? "L’oracle s’éveille." : score>0 ? "Une lueur apparaît." : "Les astres restent silencieux."}</p>}
-    {guesses.length===0 && !won && <p className="v10-feedback">Les astres restent silencieux.</p>}
-
-    {won && <section className="victory-banner" aria-live="polite">
-      <div className="star-fireworks" aria-hidden="true"><i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i><i>✶</i></div>
-      <p>Les astres se sont alignés</p>
-      <h2>{daily.word.toUpperCase()}</h2>
-      <button onClick={shareResults}>📸 💬 Partager mes résultats</button>
-      {shareNotice && <em>{shareNotice}</em>}
-    </section>}
-
-    {guesses.length > 0 && <section className="attempts v12-attempts">
-      <h2>Vos tentatives</h2>
-      <div className="v12-attempt-list">
-        {guesses.map(g=>{
-          const detail = scoreDetails(g.score);
-          return <div className="v12-attempt-row" key={g.word}>
-            <span className="attempt-moon">{detail.moon}</span>
-            <strong>{g.word}</strong>
-            <i><em style={{width:detail.pct+"%"}} /></i>
-            <small>{detail.label}</small>
-            <b>{detail.pct}%</b>
-          </div>
-        })}
-      </div>
-    </section>}
-    <footer>Le Mot Astral, inspiré librement de Pédantix.</footer>
+    {(won || lost) && <section className="victory-banner" aria-live="polite"><div className="star-fireworks" aria-hidden="true"><i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i><i>✶</i></div><p>{won ? "Les astres se sont alignés" : "L’oracle garde son secret"}</p><h2>{daily.word.toUpperCase()}</h2><button onClick={shareResults}>📸 💬 Partager mes résultats</button>{shareNotice && <em>{shareNotice}</em>}</section>}
+    <footer>Le Mot Astral</footer>
   </main>
 }
 

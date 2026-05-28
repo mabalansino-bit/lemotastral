@@ -948,3 +948,31 @@ body::after{
     padding:0 13px !important;
   }
 }
+
+
+/* V14 — gameplay 6 visions type oracle / mot mystère */
+.v12-yesterday span{font-size:clamp(17px,4.1vw,24px)!important;color:rgba(247,239,217,.70)!important}
+.v10-oracle-title strong{font-size:clamp(18px,4.4vw,25px)!important;letter-spacing:.14em!important}
+.v10-oracle-title p{font-size:clamp(18px,4.4vw,25px)!important;color:rgba(247,239,217,.78)!important}
+.v10-oracle-title em,.subtitle,.v10-moons{display:none!important}
+.v14-live{display:inline-grid;place-items:center;position:relative;width:22px;height:18px;margin-left:6px;vertical-align:-3px}
+.v14-live i,.v14-live b,.v14-live em{position:absolute;left:50%;bottom:2px;transform:translateX(-50%);border:1.5px solid var(--gold2);border-bottom:0;border-radius:999px 999px 0 0;opacity:.88;filter:drop-shadow(0 0 6px rgba(244,216,146,.35));animation:v14Signal 1.9s ease-in-out infinite}
+.v14-live i{width:6px;height:5px}.v14-live b{width:13px;height:10px;animation-delay:.18s}.v14-live em{width:20px;height:15px;animation-delay:.36s}
+@keyframes v14Signal{0%,100%{opacity:.35}50%{opacity:1}}
+.v14-podium-row{display:grid;grid-template-columns:34px 42px 1fr 58px;gap:10px;align-items:center;margin:12px 0}
+.v14-podium-row>strong{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;color:#170d04;font-family:"Cinzel",serif;font-size:.9rem;background:linear-gradient(135deg,#ffe9a6,#d4a64e)}
+.v14-podium-row:nth-of-type(3)>strong{background:linear-gradient(135deg,#ffffff,#aeb0bd)}
+.v14-podium-row:nth-of-type(4)>strong{background:linear-gradient(135deg,#f3c08b,#9a6034)}
+.v14-podium-row span{color:rgba(247,239,217,.86);font-family:"Cinzel",serif;font-size:clamp(.86rem,3.6vw,1.05rem);letter-spacing:.06em;text-transform:uppercase}
+.v14-orb{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;position:relative;background:radial-gradient(circle,rgba(199,181,255,.18),rgba(3,3,10,.42) 62%);border:1px solid rgba(212,166,78,.26);box-shadow:inset 0 0 16px rgba(0,0,0,.35)}
+.v14-orb::before{content:"";width:32px;height:32px;border-radius:50%;background:conic-gradient(var(--gold2) var(--level),rgba(199,181,255,.14) 0);filter:drop-shadow(0 0 9px rgba(244,216,146,.18))}
+.v14-orb::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;background:#0b0820}
+.v14-orb.strong::before{background:conic-gradient(#c7b5ff var(--level),rgba(199,181,255,.14) 0)}.v14-orb.soft::before{background:conic-gradient(#a875d9 var(--level),rgba(199,181,255,.14) 0)}
+.v14-grid{width:min(760px,100%);display:grid;gap:8px;margin:18px auto 12px}.v14-grid-row{display:flex;justify-content:center;gap:6px}
+.v14-letter{width:clamp(34px,9.4vw,58px);height:clamp(42px,10.6vw,64px);display:grid;place-items:center;border-radius:12px;border:1px solid rgba(212,166,78,.25);background:rgba(3,3,10,.44);color:rgba(247,239,217,.88);font-family:"Cinzel",serif;font-weight:700;font-size:clamp(19px,5vw,30px);text-transform:uppercase;box-shadow:inset 0 0 16px rgba(0,0,0,.24)}
+.v14-letter.empty{color:transparent;border-color:rgba(199,181,255,.14)}.v14-letter.absent{background:linear-gradient(180deg,#171124,#05040b);color:rgba(247,239,217,.42);border-color:rgba(199,181,255,.16)}
+.v14-letter.present{background:linear-gradient(180deg,#4b3294,#1d123d);color:#f4edff;border-color:rgba(199,181,255,.65);box-shadow:0 0 20px rgba(141,118,216,.22),inset 0 0 14px rgba(255,255,255,.06)}
+.v14-letter.correct{background:linear-gradient(180deg,#f4d892,#b6822a);color:#160d05;border-color:rgba(255,241,186,.95);box-shadow:0 0 24px rgba(244,216,146,.35),inset 0 0 12px rgba(255,255,255,.18)}
+.v14-vision-count{color:rgba(244,216,146,.88);font-family:"Cinzel",serif;font-size:.9rem;letter-spacing:.14em;text-transform:uppercase;margin:8px 0}.v14-vision-count span{color:var(--gold2);font-size:1.35em}
+.guess-form input{font-size:18px!important}
+@media(max-width:680px){.v12-yesterday strong{font-size:.65rem!important}.v12-yesterday span{font-size:17px!important}.v14-podium-row{grid-template-columns:30px 36px 1fr 48px;gap:8px}.v14-orb{width:44px;height:44px}.v14-orb::before{width:28px;height:28px}.v14-orb::after{width:18px;height:18px}.v10-oracle-title p{font-size:18px!important}.v14-grid{gap:6px}.v14-grid-row{gap:4px}.v14-letter{border-radius:9px}.guess-form input{font-size:15px!important;padding-left:14px!important}.guess-form button{font-size:11px!important;padding:0 13px!important}}
