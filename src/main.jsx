@@ -18,7 +18,7 @@ const ZODIAC_SIGNS = [
   { name:"Poissons", plural:"les Poissons", symbol:"♓︎" },
 ];
 
-const ORACLE_DAYS = [{ word:"voyance", image:"/cards/voyance.png", clue:"Elle voit avant les autres." }];
+const ORACLE_DAYS = [{ word:"passage", image:"/cards/passage.png", clue:"Une porte s’ouvre quand l’heure est juste." }];
 
 const PODIUM = [
   { sign:ZODIAC_SIGNS[7], level:92, aura:"dominant" },
@@ -175,7 +175,7 @@ function Home(){
       <div className="v12-yesterday"><SignIcon sign={winner}/><div><strong>Hier, {winner.plural} ont été les plus intuitifs.</strong><span>Quel signe brillera aujourd’hui ?</span></div></div>
       <div className="v12-podium v14-podium-orbs">
         <h2>Podium astral — en direct <SignalLive /></h2>
-        {PODIUM.map((item,index)=><div className="v14-podium-row" key={item.sign.name}><strong>{index+1}</strong><SignIcon sign={item.sign} small/><span>{item.sign.name}</span><div className={`v14-orb ${item.aura}`} style={{"--level":item.level+"%"}}><i /></div></div>)}
+        {PODIUM.map((item,index)=><div className="v14-podium-row v15-podium-simple" key={item.sign.name}><strong>{["🥇","🥈","🥉"][index]}</strong><SignIcon sign={item.sign} small/><span>{item.sign.name}</span></div>)}
       </div>
     </section>
 
