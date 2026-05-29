@@ -1,1 +1,1 @@
-Le Mot Astral — V15 Passage. Basée sur la V14 : mot PASSAGE, carte validée, podium simplifié avec 🥇🥈🥉 et signe en direct stylisé.
+Le Mot Astral — V16 : header compétition condensé avec signe gagnant géant, podium horizontal compact et défense du signe.
