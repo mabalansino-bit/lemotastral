@@ -1,13 +1,13 @@
-Le Mot Astral — V18
+Le Mot Astral — V18.1
 
-Basée sur la V17 finale sans podium.
+Basée sur la V18.
 
 Modifications :
-- historique : affiche maintenant le mot du jour + le signe vainqueur ;
-- suppression du gros bloc “Vous êtes [signe]” ;
-- ajout d’une ligne discrète : “♋ Vous jouez pour les Cancer.” ;
-- couleurs des lettres modifiées :
-  - bleu nuit/noir = lettre absente ;
-  - ambre/cuivre = lettre présente mais mal placée ;
-  - or lumineux + éclat = lettre bien placée ;
-- écran de victoire V17 conservé.
+- ajout/retour de la ligne discrète sous l’intro :
+  “♋ Vous jouez pour les Cancer.”
+- suppression de :
+  “Les astres restent silencieux.”
+- suppression du footer :
+  “Le Mot Astral”
+- conservation de tout le reste :
+  header V17 finale, carte Passage, gameplay 6 visions, couleurs V18, écran de victoire.
