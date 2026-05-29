@@ -171,15 +171,46 @@ function Home(){
   return <main className="page">
     <nav className="top-menu"><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button><button onClick={()=>setView("about")}>À propos</button><button onClick={()=>setView("home")}>Contact</button></nav>
 
-    <section className="v12-astro-board">
-      <div className="v12-yesterday"><SignIcon sign={winner}/><div><strong>Hier, {winner.plural} ont été les plus intuitifs.</strong><span>Quel signe brillera aujourd’hui ?</span></div></div>
-      <div className="v12-podium v14-podium-orbs">
-        <h2>Podium astral — en direct <SignalLive /></h2>
-        {PODIUM.map((item,index)=><div className="v14-podium-row v15-podium-simple" key={item.sign.name}><strong>{["🥇","🥈","🥉"][index]}</strong><SignIcon sign={item.sign} small/><span>{item.sign.name}</span></div>)}
+    <section className="v16-astro-header">
+
+      <div className="v16-yesterday-word">
+        LE MOT D’HIER ÉTAIT « VOYANCE »
       </div>
+
+      <div className="v16-congrats">
+        bravo aux
+      </div>
+
+      <div className="v16-winning-sign">
+        🏆 {winner.name.toUpperCase()} 🏆
+      </div>
+
+      <div className="v16-today-line">
+        Quel signe brillera aujourd’hui ?
+      </div>
+
+      <div className="v16-live-podium">
+        <h2>Podium astral — en direct <SignalLive /></h2>
+
+        <div className="v16-podium-inline">
+          {PODIUM.map((item,index)=>
+            <div className="v16-podium-item" key={item.sign.name}>
+              <strong>{["🥇","🥈","🥉"][index]}</strong>
+              <span>{item.sign.name}</span>
+            </div>
+          )}
+        </div>
+      </div>
+
     </section>
 
-    <section className="v12-player-sign"><SignIcon sign={player}/><div><strong>Vous êtes {player.name}</strong><span>Chaque vision peut faire gagner votre signe.</span></div></section>
+    <section className="v16-player-sign">
+      <span className="v16-player-symbol">{player.symbol}</span>
+      <div>
+        <strong>Vous êtes {player.name}</strong>
+        <span>Défendez votre signe.</span>
+      </div>
+    </section>
 
     <div className="brand-clouds" aria-hidden="true" />
     <h1 className="logo">Le Mot Astral</h1>
