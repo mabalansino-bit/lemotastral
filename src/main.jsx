@@ -85,6 +85,13 @@ Sauras-tu faire mieux et faire briller ton signe ?
 https://www.lemotastral.fr/`;
 }
 
+
+function victoryMessage(count){
+  if(count <= 2) return "Une intuition exceptionnelle.";
+  if(count <= 4) return "Les astres vous étaient favorables.";
+  return "Vous avez percé le mystère.";
+}
+
 function SignChoice({onChoose}){
   return <main className="page">
     <div className="brand-clouds" aria-hidden="true" />
@@ -171,44 +178,31 @@ function Home(){
   return <main className="page">
     <nav className="top-menu"><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("results")}>Résultats</button><button onClick={()=>setView("about")}>À propos</button><button onClick={()=>setView("home")}>Contact</button></nav>
 
-    <section className="v16-astro-header">
+    <section className="v17-final-header">
 
-      <div className="v16-yesterday-word">
+      <div className="v17-final-yesterday">
         LE MOT D’HIER ÉTAIT « VOYANCE »
       </div>
 
-      <div className="v16-congrats">
-        bravo aux
+      <div className="v17-final-congrats">
+        Bravo au signe vainqueur
       </div>
 
-      <div className="v16-winning-sign">
+      <div className="v17-final-winner">
         🏆 {winner.name.toUpperCase()} 🏆
       </div>
 
-      <div className="v16-today-line">
+      <div className="v17-final-question">
         Quel signe brillera aujourd’hui ?
-      </div>
-
-      <div className="v16-live-podium">
-        <h2>Podium astral — en direct <SignalLive /></h2>
-
-        <div className="v16-podium-inline">
-          {PODIUM.map((item,index)=>
-            <div className="v16-podium-item" key={item.sign.name}>
-              <strong>{["🥇","🥈","🥉"][index]}</strong>
-              <span>{item.sign.name}</span>
-            </div>
-          )}
-        </div>
       </div>
 
     </section>
 
-    <section className="v16-player-sign">
-      <span className="v16-player-symbol">{player.symbol}</span>
+    <section className="v17-final-player">
+      <span>{player.symbol}</span>
       <div>
         <strong>Vous êtes {player.name}</strong>
-        <span>Défendez votre signe.</span>
+        <em>Défendez votre signe.</em>
       </div>
     </section>
 
@@ -225,7 +219,40 @@ function Home(){
     {error && <p className="error">{error}</p>}
     {!won && !lost && <p className="v10-feedback">Les astres restent silencieux.</p>}
 
-    {(won || lost) && <section className="victory-banner" aria-live="polite"><div className="star-fireworks" aria-hidden="true"><i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i><i>✶</i></div><p>{won ? "Les astres se sont alignés" : "L’oracle garde son secret"}</p><h2>{daily.word.toUpperCase()}</h2><button onClick={shareResults}>📸 💬 Partager mes résultats</button>{shareNotice && <em>{shareNotice}</em>}</section>}
+    {(won || lost) && <section className="v17-victory-overlay" aria-live="polite">
+      <div className="v17-sparks" aria-hidden="true">
+        <i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i>
+      </div>
+
+      <div className="v17-victory-card">
+        <p className="v17-bravo">✨ BRAVO ✨</p>
+        <h2>{daily.word.toUpperCase()}</h2>
+
+        <p className="v17-performance">
+          {won ? victoryMessage(attempts.length) : "L’oracle garde son secret."}
+        </p>
+
+        <p className="v17-sign-message">
+          {player.symbol} Votre intuition renforce {player.plural} aujourd’hui.
+        </p>
+
+        <p className="v17-count">
+          {won ? `Mot trouvé en ${attempts.length} vision${attempts.length>1 ? "s" : ""}` : `Le mot était ${daily.word.toUpperCase()}`}
+        </p>
+
+        <button className="v17-share" onClick={shareResults}>
+          <img src="/icons/instagram.png" alt="" />
+          <img src="/icons/whatsapp.png" alt="" />
+          <span>Partager mes résultats</span>
+        </button>
+
+        {shareNotice && <em>{shareNotice}</em>}
+
+        <button className="v17-continue" onClick={()=>{}}>
+          Continuer
+        </button>
+      </div>
+    </section>}
     <footer>Le Mot Astral</footer>
   </main>
 }
