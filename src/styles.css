@@ -1457,3 +1457,27 @@ body::after{
     margin-top:8px;
   }
 }
+
+
+/* V18.1 — nettoyage bas de page + ligne signe */
+.v18-player-line{
+  display:block !important;
+  margin-top:8px !important;
+  color:rgba(244,216,146,.78) !important;
+  font-family:"Crimson Text",serif !important;
+  font-size:clamp(1rem,4vw,1.2rem) !important;
+  font-style:italic !important;
+  letter-spacing:.02em !important;
+}
+
+.v10-feedback{
+  display:none !important;
+}
+
+footer{
+  display:none !important;
+}
+
+.inline-guess{
+  margin-bottom:18px !important;
+}

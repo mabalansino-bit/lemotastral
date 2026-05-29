@@ -209,7 +209,6 @@ function Home(){
 
     <div className="guess-form inline-guess"><input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder={`${target.length} lettres…`} maxLength={target.length} autoComplete="off" autoCorrect="off" spellCheck={false}/><button onClick={handleSubmit}>Proposer 🔮</button></div>
     {error && <p className="error">{error}</p>}
-    {!won && !lost && <p className="v10-feedback">Les astres restent silencieux.</p>}
 
     {(won || lost) && <section className="v17-victory-overlay" aria-live="polite">
       <div className="v17-sparks" aria-hidden="true">
@@ -245,7 +244,6 @@ function Home(){
         </button>
       </div>
     </section>}
-    <footer>Le Mot Astral</footer>
   </main>
 }
 
