@@ -1,1 +1,1 @@
-Le Mot Astral — V16 : header compétition condensé avec signe gagnant géant, podium horizontal compact et défense du signe.
+Le Mot Astral — V17 finale sans podium. Suppression du podium en direct, header simplifié avec signe vainqueur, écran de victoire conservé.
