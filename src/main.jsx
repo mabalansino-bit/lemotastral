@@ -27,9 +27,9 @@ const PODIUM = [
 ];
 
 const RESULT_HISTORY = [
-  { date:"20 mai 2026", sign:ZODIAC_SIGNS[7], result:"3 visions" },
-  { date:"19 mai 2026", sign:ZODIAC_SIGNS[11], result:"4 visions" },
-  { date:"18 mai 2026", sign:ZODIAC_SIGNS[5], result:"4 visions" },
+  { date:"20 mai 2026", word:"VOYANCE", sign:ZODIAC_SIGNS[7] },
+  { date:"19 mai 2026", word:"AURA", sign:ZODIAC_SIGNS[11] },
+  { date:"18 mai 2026", word:"KARMA", sign:ZODIAC_SIGNS[5] },
 ];
 
 function normalize(s){
@@ -117,7 +117,7 @@ function Results({setView, selectedSign}){
   return <main className="page">
     <nav className="top-menu"><button onClick={()=>setView("home")}>Accueil</button><button onClick={()=>setView("rules")}>Règles du jeu</button><button onClick={()=>setView("about")}>À propos</button></nav>
     <h1 className="logo small-logo">Résultats</h1>
-    <section className="content-card"><h2>Historique</h2><div className="history-table">{RESULT_HISTORY.map(r=><div key={r.date}><span>{r.date}</span><em><SignIcon sign={r.sign} small/> {r.sign.name}</em><small>{r.result}</small></div>)}</div></section>
+    <section className="content-card"><h2>Historique</h2><div className="history-table">{RESULT_HISTORY.map(r=><div key={r.date}><span>{r.date}</span><strong>{r.word}</strong><em>🏆 {r.sign.name}</em></div>)}</div></section>
     <section className="v12-player-sign"><SignIcon sign={player}/><div><strong>Vous êtes {player.name}</strong><span>Chaque vision peut faire gagner votre signe.</span></div></section>
   </main>
 }
@@ -198,18 +198,10 @@ function Home(){
 
     </section>
 
-    <section className="v17-final-player">
-      <span>{player.symbol}</span>
-      <div>
-        <strong>Vous êtes {player.name}</strong>
-        <em>Défendez votre signe.</em>
-      </div>
-    </section>
-
     <div className="brand-clouds" aria-hidden="true" />
     <h1 className="logo">Le Mot Astral</h1>
     <div className="moon-phases" aria-hidden="true">◐  ◑  ●  ◒  ◓</div>
-    <section className="oracle-invite v10-oracle-title"><strong>Interprétez la carte du jour</strong><p>Trouvez le mot mystère en 6 visions.</p></section>
+    <section className="oracle-invite v10-oracle-title"><strong>Interprétez la carte du jour</strong><p>Trouvez le mot mystère en 6 visions.</p><em className="v18-player-line">{player.symbol} Vous jouez pour {player.plural}.</em></section>
     <section className="v10-card-wrap"><img src={daily.image} alt="Carte oracle du jour" /></section>
 
     <WordGrid target={daily.word} attempts={attempts} current={input} />
