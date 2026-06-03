@@ -1645,3 +1645,16 @@ em.v18-player-line{
     font-size:.66rem !important;
   }
 }
+
+/* V20.1 card quality + WhatsApp icon */
+.v10-card-wrap img{
+  image-rendering:auto !important;
+  object-fit:cover !important;
+}
+.v17-share img{
+  width:28px !important;
+  height:28px !important;
+  object-fit:contain !important;
+  border-radius:0 !important;
+  background:transparent !important;
+}
