@@ -1646,15 +1646,16 @@ em.v18-player-line{
   }
 }
 
-/* V20.1 card quality + WhatsApp icon */
+/* V20.2 high definition cards */
 .v10-card-wrap img{
   image-rendering:auto !important;
   object-fit:cover !important;
 }
 .v17-share img{
-  width:28px !important;
-  height:28px !important;
+  width:30px !important;
+  height:30px !important;
   object-fit:contain !important;
-  border-radius:0 !important;
+  border-radius:7px !important;
   background:transparent !important;
+  filter:none !important;
 }

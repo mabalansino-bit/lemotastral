@@ -21,21 +21,21 @@ const ZODIAC_SIGNS = [
 ];
 
 const ORACLE_DAYS = [
-  { word:"passage", display:"PASSAGE", image:"/cards/passage.jpg", clue:"Une porte s’ouvre quand l’heure est juste." },
-  { word:"destin", display:"DESTIN", image:"/cards/destin.jpg", clue:"Certains chemins semblent écrits d’avance." },
-  { word:"aura", display:"AURA", image:"/cards/aura.jpg", clue:"Elle apparaît parfois avant même que l’on prononce un mot." },
-  { word:"karma", display:"KARMA", image:"/cards/karma.jpg", clue:"Ce que l’on sème revient toujours." },
-  { word:"oracle", display:"ORACLE", image:"/cards/oracle.jpg", clue:"Les réponses viennent parfois du silence." },
-  { word:"signe", display:"SIGNE", image:"/cards/signe.jpg", clue:"Il apparaît à ceux qui savent regarder." },
-  { word:"guide", display:"GUIDE", image:"/cards/guide.jpg", clue:"Il éclaire sans imposer la direction." },
-  { word:"rituel", display:"RITUEL", image:"/cards/rituel.jpg", clue:"Certains gestes ont plus de sens qu’il n’y paraît." },
-  { word:"éveil", display:"ÉVEIL", image:"/cards/eveil.jpg", clue:"Tout change lorsqu’on ouvre les yeux." },
-  { word:"miroir", display:"MIROIR", image:"/cards/miroir.jpg", clue:"Ce qui vous fait face n’est pas toujours un autre." },
-  { word:"présage", display:"PRÉSAGE", image:"/cards/presage.jpg", clue:"Il annonce parfois ce qui approche." },
-  { word:"secret", display:"SECRET", image:"/cards/secret.jpg", clue:"Certaines vérités préfèrent attendre." },
-  { word:"étoile", display:"ÉTOILE", image:"/cards/etoile.jpg", clue:"Même lointaine, elle peut guider." },
-  { word:"voyage", display:"VOYAGE", image:"/cards/voyage.jpg", clue:"Le premier pas compte souvent davantage que le dernier." },
-  { word:"intuition", display:"INTUITION", image:"/cards/intuition.jpg", clue:"Elle sait parfois avant que l’esprit comprenne." },
+  { word:"passage", display:"PASSAGE", image:"/cards/passage.png", clue:"Une porte s’ouvre quand l’heure est juste." },
+  { word:"destin", display:"DESTIN", image:"/cards/destin.png", clue:"Certains chemins semblent écrits d’avance." },
+  { word:"aura", display:"AURA", image:"/cards/aura.png", clue:"Elle apparaît parfois avant même que l’on prononce un mot." },
+  { word:"karma", display:"KARMA", image:"/cards/karma.png", clue:"Ce que l’on sème revient toujours." },
+  { word:"oracle", display:"ORACLE", image:"/cards/oracle.png", clue:"Les réponses viennent parfois du silence." },
+  { word:"signe", display:"SIGNE", image:"/cards/signe.png", clue:"Il apparaît à ceux qui savent regarder." },
+  { word:"guide", display:"GUIDE", image:"/cards/guide.png", clue:"Il éclaire sans imposer la direction." },
+  { word:"rituel", display:"RITUEL", image:"/cards/rituel.png", clue:"Certains gestes ont plus de sens qu’il n’y paraît." },
+  { word:"éveil", display:"ÉVEIL", image:"/cards/eveil.png", clue:"Tout change lorsqu’on ouvre les yeux." },
+  { word:"miroir", display:"MIROIR", image:"/cards/miroir.png", clue:"Ce qui vous fait face n’est pas toujours un autre." },
+  { word:"présage", display:"PRÉSAGE", image:"/cards/presage.png", clue:"Il annonce parfois ce qui approche." },
+  { word:"secret", display:"SECRET", image:"/cards/secret.png", clue:"Certaines vérités préfèrent attendre." },
+  { word:"étoile", display:"ÉTOILE", image:"/cards/etoile.png", clue:"Même lointaine, elle peut guider." },
+  { word:"voyage", display:"VOYAGE", image:"/cards/voyage.png", clue:"Le premier pas compte souvent davantage que le dernier." },
+  { word:"intuition", display:"INTUITION", image:"/cards/intuition.png", clue:"Elle sait parfois avant que l’esprit comprenne." },
 ];
 
 const FALLBACK_WINNERS = [7,11,5,3,4,6,9,1,10,2,8,0,12,14,13];
