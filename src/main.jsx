@@ -23,19 +23,6 @@ const ZODIAC_SIGNS = [
 const ORACLE_DAYS = [
   { word:"passage", display:"PASSAGE", image:"/cards/passage.png", clue:"Une porte s’ouvre quand l’heure est juste." },
   { word:"destin", display:"DESTIN", image:"/cards/destin.png", clue:"Certains chemins semblent écrits d’avance." },
-  { word:"aura", display:"AURA", image:"/cards/aura.png", clue:"Elle apparaît parfois avant même que l’on prononce un mot." },
-  { word:"karma", display:"KARMA", image:"/cards/karma.png", clue:"Ce que l’on sème revient toujours." },
-  { word:"oracle", display:"ORACLE", image:"/cards/oracle.png", clue:"Les réponses viennent parfois du silence." },
-  { word:"signe", display:"SIGNE", image:"/cards/signe.png", clue:"Il apparaît à ceux qui savent regarder." },
-  { word:"guide", display:"GUIDE", image:"/cards/guide.png", clue:"Il éclaire sans imposer la direction." },
-  { word:"rituel", display:"RITUEL", image:"/cards/rituel.png", clue:"Certains gestes ont plus de sens qu’il n’y paraît." },
-  { word:"éveil", display:"ÉVEIL", image:"/cards/eveil.png", clue:"Tout change lorsqu’on ouvre les yeux." },
-  { word:"miroir", display:"MIROIR", image:"/cards/miroir.png", clue:"Ce qui vous fait face n’est pas toujours un autre." },
-  { word:"présage", display:"PRÉSAGE", image:"/cards/presage.png", clue:"Il annonce parfois ce qui approche." },
-  { word:"secret", display:"SECRET", image:"/cards/secret.png", clue:"Certaines vérités préfèrent attendre." },
-  { word:"étoile", display:"ÉTOILE", image:"/cards/etoile.png", clue:"Même lointaine, elle peut guider." },
-  { word:"voyage", display:"VOYAGE", image:"/cards/voyage.png", clue:"Le premier pas compte souvent davantage que le dernier." },
-  { word:"intuition", display:"INTUITION", image:"/cards/intuition.png", clue:"Elle sait parfois avant que l’esprit comprenne." },
 ];
 
 const FALLBACK_WINNERS = [7,11,5,3,4,6,9,1,10,2,8,0,12,14,13];
@@ -146,7 +133,7 @@ function buildShareText(sign, attempts, won, daily){
   return `Le Mot Astral ✨
 Signe : ${sign.name} ${sign.symbol}
 
-${won ? `J’ai trouvé le mot du jour en ${n} vision${n>1 ? "s" : ""}.` : `L’Oracle m’a résisté aujourd’hui.`}
+${won ? `J’ai trouvé le mot du jour en ${n} tentative${n>1 ? "s" : ""}.` : `L’Oracle m’a résisté aujourd’hui.`}
 
 Sauras-tu faire briller ton signe ?
 
@@ -294,17 +281,32 @@ function Home(){
     }
   }
 
-  function shareResults(){
+  function shareWhatsApp(){
     const text = buildShareText(player, attempts, won, daily);
-    trackEvent("share_results",{sign:player.name, won, attempts:attempts.length});
-    if(navigator.share) navigator.share({title:"Le Mot Astral", text}).catch(()=>{});
-    else { navigator.clipboard?.writeText(text); setShareNotice("Résultat copié."); setTimeout(()=>setShareNotice(""),2200); }
+    if(window.gtag) window.gtag("event","share_whatsapp",{sign:player.name, won, attempts:attempts.length});
+    window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank", "noopener,noreferrer");
+  }
+
+  function shareInstagram(){
+    const text = buildShareText(player, attempts, won, daily);
+    if(window.gtag) window.gtag("event","share_instagram",{sign:player.name, won, attempts:attempts.length});
+    if(navigator.share){
+      navigator.share({title:"Le Mot Astral", text}).catch(()=>{});
+    } else {
+      navigator.clipboard?.writeText(text);
+      setShareNotice("Résultat copié.");
+      setTimeout(()=>setShareNotice(""),2400);
+    }
+  }
+
+  function shareResults(){
+    shareWhatsApp();
   }
 
   if(!selectedSign) return <SignChoice onChoose={chooseSign}/>;
 
   if(view==="rules") return <Content title="Règles du jeu" view={view} setView={setView}>
-    <p>Interprétez la carte du jour et trouvez le mot mystère en 6 visions.</p>
+    <p>Interprétez la carte du jour et trouvez le mot mystère en 6 tentatives.</p>
     <p>Chaque proposition doit avoir le bon nombre de lettres.</p>
     <p>Une lettre dorée est bien placée. Une lettre bronze est présente ailleurs. Une lettre sombre n’est pas dans le mot.</p>
     <p>Une fois le mot découvert, partagez votre score et faites briller votre signe.</p>
@@ -313,7 +315,7 @@ function Home(){
   if(view==="results") return <Results view={view} setView={setView}/>;
 
   if(view==="about") return <Content title="À propos" view={view} setView={setView}>
-    <p>Le Mot Astral est un jeu quotidien d’intuition visuelle : une carte, un indice, 6 visions et une compétition entre signes.</p>
+    <p>Le Mot Astral est un jeu quotidien d’intuition visuelle : une carte, un indice, 6 tentatives et une compétition entre signes.</p>
   </Content>;
 
   if(view==="contact") return <Contact view={view} setView={setView}/>;
@@ -341,13 +343,13 @@ function Home(){
     <div className="moon-phases" aria-hidden="true">◐  ◑  ●  ◒  ◓</div>
     <section className="oracle-invite v10-oracle-title">
       <strong>Interprétez la carte du jour</strong>
-      <p>Trouvez le mot mystère en 6 visions.</p>
+      <p>Trouvez le mot mystère en 6 tentatives.</p>
       <em className="v18-player-line">{player.symbol} Vous jouez pour {player.plural}.</em>
     </section>
     <section className="v10-card-wrap"><img src={daily.image} alt="Carte oracle du jour" /></section>
 
     <WordGrid target={daily.word} attempts={attempts} current={input} />
-    <div className="v14-vision-count"><span>{6-attempts.length}</span> vision{6-attempts.length>1 ? "s" : ""} restante{6-attempts.length>1 ? "s" : ""}</div>
+    <div className="v14-tentative-count"><span>{6-attempts.length}</span> tentative{6-attempts.length>1 ? "s" : ""} restante{6-attempts.length>1 ? "s" : ""}</div>
 
     <div className="guess-form inline-guess">
       <input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder={`${target.length} lettres…`} maxLength={target.length} autoComplete="off" autoCorrect="off" spellCheck={false}/>
@@ -373,14 +375,19 @@ function Home(){
         </p>
 
         <p className="v17-count">
-          {won ? `Mot trouvé en ${attempts.length} vision${attempts.length>1 ? "s" : ""}` : `Le mot était ${daily.display}`}
+          {won ? `Mot trouvé en ${attempts.length} tentative${attempts.length>1 ? "s" : ""}` : `Le mot était ${daily.display}`}
         </p>
 
-        <button className="v17-share" onClick={shareResults}>
-          <img src="/icons/instagram.png" alt="" />
-          <img src="/icons/whatsapp.png" alt="" />
-          <span>Partager mes résultats</span>
-        </button>
+        <div className="v22-share-buttons">
+          <button className="v22-share-btn v22-instagram" onClick={shareInstagram}>
+            <img src="/icons/instagram.png" alt="" />
+            <span>Instagram</span>
+          </button>
+          <button className="v22-share-btn v22-whatsapp" onClick={shareWhatsApp}>
+            <img src="/icons/whatsapp.png" alt="" />
+            <span>WhatsApp</span>
+          </button>
+        </div>
 
         {shareNotice && <em>{shareNotice}</em>}
       </div>

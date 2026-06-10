@@ -1659,3 +1659,11 @@ em.v18-player-line{
   background:transparent !important;
   filter:none !important;
 }
+
+/* V22 — boutons séparés Instagram / WhatsApp */
+.v22-share-buttons{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap}
+.v22-share-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:145px;min-height:52px;padding:12px 18px;border-radius:999px;border:1px solid rgba(255,239,173,.75);font-family:"Cinzel",serif;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 24px rgba(244,216,146,.20), inset 0 0 12px rgba(255,255,255,.10)}
+.v22-share-btn img{width:28px!important;height:28px!important;object-fit:contain!important;border-radius:7px!important;background:transparent!important;filter:none!important}
+.v22-instagram{background:linear-gradient(135deg,#f4c65f,#d14d89,#7a4dd8);color:#fff9e8}
+.v22-whatsapp{background:linear-gradient(135deg,#e8ffe8,#25D366);color:#102312}
+.v17-share{display:none!important}
