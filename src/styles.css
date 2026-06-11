@@ -1667,3 +1667,33 @@ em.v18-player-line{
 .v22-instagram{background:linear-gradient(135deg,#f4c65f,#d14d89,#7a4dd8);color:#fff9e8}
 .v22-whatsapp{background:linear-gradient(135deg,#e8ffe8,#25D366);color:#102312}
 .v17-share{display:none!important}
+
+/* V23 — image de victoire et retour au jeu */
+.v23-download-result{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin:18px auto 2px;
+  padding:12px 18px;
+  border-radius:999px;
+  border:1px solid rgba(244,216,146,.62);
+  background:rgba(244,216,146,.12);
+  color:rgba(255,249,232,.96);
+  font-family:"Cinzel",serif;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.v23-back-game{
+  display:block;
+  margin:16px auto 0;
+  border:0;
+  background:transparent;
+  color:rgba(247,239,217,.76);
+  font-family:"Crimson Text",serif;
+  font-size:1.05rem;
+  text-decoration:underline;
+  cursor:pointer;
+}
+.v23-back-game:hover{color:rgba(244,216,146,.96)}

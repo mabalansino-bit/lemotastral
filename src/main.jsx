@@ -1,5 +1,5 @@
 
-import React,{useMemo,useState} from "react";
+import React,{useEffect,useMemo,useState} from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
@@ -140,6 +140,133 @@ Sauras-tu faire briller ton signe ?
 https://www.lemotastral.fr/`;
 }
 
+
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight){
+  const words = String(text).split(" ");
+  let line = "";
+  for(let i=0;i<words.length;i++){
+    const test = line ? line + " " + words[i] : words[i];
+    if(ctx.measureText(test).width > maxWidth && line){
+      ctx.fillText(line, x, y);
+      line = words[i];
+      y += lineHeight;
+    } else line = test;
+  }
+  if(line) ctx.fillText(line, x, y);
+  return y;
+}
+
+function drawStar(ctx, x, y, radius, points=8){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.beginPath();
+  for(let i=0;i<points*2;i++){
+    const r = i%2===0 ? radius : radius*0.38;
+    const a = -Math.PI/2 + i*Math.PI/points;
+    const px = Math.cos(a)*r;
+    const py = Math.sin(a)*r;
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function makeResultImageBlob(sign, attemptsCount){
+  return new Promise((resolve)=>{
+    const canvas = document.createElement("canvas");
+    canvas.width = 1080;
+    canvas.height = 1920;
+    const ctx = canvas.getContext("2d");
+
+    const bg = ctx.createLinearGradient(0,0,0,1920);
+    bg.addColorStop(0,"#f8f0df");
+    bg.addColorStop(1,"#efe0bf");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0,0,1080,1920);
+
+    ctx.strokeStyle = "#c99a43";
+    ctx.lineWidth = 6;
+    ctx.strokeRect(58,58,964,1804);
+    ctx.lineWidth = 2;
+    ctx.globalAlpha = 0.65;
+    ctx.strokeRect(82,82,916,1756);
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = "rgba(201,154,67,.22)";
+    ctx.beginPath(); ctx.arc(540,470,305,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "rgba(120,79,142,.10)";
+    ctx.beginPath(); ctx.arc(540,470,220,0,Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = "#c99a43";
+    drawStar(ctx,540,190,44,8);
+    for(const [x,y,r] of [[190,250,10],[880,285,8],[160,1480,7],[910,1420,9],[840,1600,6],[230,1680,8],[150,820,6],[940,760,7]]){
+      drawStar(ctx,x,y,r,6);
+    }
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#4b245f";
+    ctx.font = "700 58px Georgia, serif";
+    ctx.letterSpacing = "2px";
+    ctx.fillText("LE MOT ASTRAL",540,315);
+
+    ctx.fillStyle = "#c99a43";
+    ctx.font = "700 250px Georgia, serif";
+    ctx.fillText(sign.symbol.replace("︎", ""),540,560);
+
+    ctx.fillStyle = "#4b245f";
+    ctx.font = "700 70px Georgia, serif";
+    ctx.fillText(`${attemptsCount} tentative${attemptsCount>1 ? "s" : ""}`,540,750);
+
+    ctx.fillStyle = "#6f4a83";
+    ctx.font = "44px Georgia, serif";
+    wrapCanvasText(ctx, `Je joue pour ${sign.plural}.`, 540, 870, 780, 58);
+
+    ctx.strokeStyle = "rgba(201,154,67,.65)";
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(230,1000); ctx.lineTo(850,1000); ctx.stroke();
+
+    ctx.fillStyle = "#4b245f";
+    ctx.font = "700 54px Georgia, serif";
+    wrapCanvasText(ctx, "Défendez votre signe.", 540, 1135, 780, 64);
+
+    ctx.fillStyle = "#6f4a83";
+    ctx.font = "38px Georgia, serif";
+    wrapCanvasText(ctx, "Un nouveau mot à trouver chaque jour.", 540, 1245, 790, 52);
+
+    ctx.fillStyle = "#c99a43";
+    ctx.font = "700 42px Georgia, serif";
+    ctx.fillText("lemotastral.fr",540,1660);
+
+    ctx.fillStyle = "#4b245f";
+    ctx.font = "30px Georgia, serif";
+    ctx.fillText("Partagez votre résultat en story",540,1722);
+
+    canvas.toBlob(resolve,"image/png",0.95);
+  });
+}
+
+async function downloadResultImage(sign, attemptsCount){
+  const blob = await makeResultImageBlob(sign, attemptsCount);
+  if(!blob) return;
+  const fileName = `mot-astral-${sign.name.toLowerCase()}-${attemptsCount}-tentatives.png`;
+  const file = new File([blob], fileName, {type:"image/png"});
+  if(navigator.canShare && navigator.canShare({files:[file]}) && navigator.share){
+    try {
+      await navigator.share({files:[file], title:"Le Mot Astral", text:"J’ai joué au Mot Astral. Défendez votre signe."});
+      return;
+    } catch {}
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+
 function victoryMessage(count){
   if(count <= 2) return "Une intuition exceptionnelle.";
   if(count <= 4) return "Les astres vous étaient favorables.";
@@ -245,6 +372,7 @@ function Home(){
   const [attempts,setAttempts] = useState([]);
   const [error,setError] = useState("");
   const [shareNotice,setShareNotice] = useState("");
+  const [overlayDismissed,setOverlayDismissed] = useState(false);
   const [selectedSign,setSelectedSign] = useState(()=>localStorage.getItem("motAstralSign") || "");
   const daily = useMemo(()=>ORACLE_DAYS[dayIndex()],[]);
   const yesterday = previousDate(1);
@@ -254,6 +382,19 @@ function Home(){
   const target = normalize(daily.word);
   const won = attempts.some(attempt => normalize(attempt.word) === target);
   const lost = attempts.length >= 6 && !won;
+  const showOverlay = (won || lost) && !overlayDismissed;
+
+  useEffect(()=>{
+    setOverlayDismissed(false);
+  },[won,lost,daily.word]);
+
+  useEffect(()=>{
+    if(!showOverlay) return;
+    window.history.pushState({motAstralOverlay:true}, "");
+    const closeOnBack = () => setOverlayDismissed(true);
+    window.addEventListener("popstate", closeOnBack);
+    return () => window.removeEventListener("popstate", closeOnBack);
+  },[showOverlay]);
 
   function chooseSign(signName){
     setSelectedSign(signName);
@@ -284,12 +425,24 @@ function Home(){
   function shareWhatsApp(){
     const text = buildShareText(player, attempts, won, daily);
     if(window.gtag) window.gtag("event","share_whatsapp",{sign:player.name, won, attempts:attempts.length});
-    window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank", "noopener,noreferrer");
+    const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+    const win = window.open(url, "_blank", "noopener,noreferrer");
+    if(!win){
+      navigator.clipboard?.writeText(text);
+      setShareNotice("Texte copié pour WhatsApp.");
+      setTimeout(()=>setShareNotice(""),2400);
+    }
   }
 
-  function shareInstagram(){
-    const text = buildShareText(player, attempts, won, daily);
+  async function shareInstagram(){
     if(window.gtag) window.gtag("event","share_instagram",{sign:player.name, won, attempts:attempts.length});
+    if(won){
+      await downloadResultImage(player, attempts.length);
+      setShareNotice("Image prête à publier en story.");
+      setTimeout(()=>setShareNotice(""),2400);
+      return;
+    }
+    const text = buildShareText(player, attempts, won, daily);
     if(navigator.share){
       navigator.share({title:"Le Mot Astral", text}).catch(()=>{});
     } else {
@@ -297,6 +450,13 @@ function Home(){
       setShareNotice("Résultat copié.");
       setTimeout(()=>setShareNotice(""),2400);
     }
+  }
+
+  async function saveVictoryImage(){
+    if(!won) return;
+    await downloadResultImage(player, attempts.length);
+    setShareNotice("Image de victoire enregistrée.");
+    setTimeout(()=>setShareNotice(""),2400);
   }
 
   function shareResults(){
@@ -357,13 +517,13 @@ function Home(){
     </div>
     {error && <p className="error">{error}</p>}
 
-    {(won || lost) && <section className="v17-victory-overlay" aria-live="polite">
+    {showOverlay && <section className="v17-victory-overlay" aria-live="polite">
       <div className="v17-sparks" aria-hidden="true">
         <i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i><i>✶</i><i>✦</i><i>✧</i>
       </div>
 
       <div className="v17-victory-card">
-        <p className="v17-bravo">✨ BRAVO ✨</p>
+        {won && <p className="v17-bravo">✨ BRAVO ✨</p>}
         <h2>{daily.display}</h2>
 
         <p className="v17-performance">
@@ -378,6 +538,8 @@ function Home(){
           {won ? `Mot trouvé en ${attempts.length} tentative${attempts.length>1 ? "s" : ""}` : `Le mot était ${daily.display}`}
         </p>
 
+        {won && <button className="v23-download-result" onClick={saveVictoryImage}>Télécharger mon image de victoire</button>}
+
         <div className="v22-share-buttons">
           <button className="v22-share-btn v22-instagram" onClick={shareInstagram}>
             <img src="/icons/instagram.png" alt="" />
@@ -390,6 +552,7 @@ function Home(){
         </div>
 
         {shareNotice && <em>{shareNotice}</em>}
+        <button className="v23-back-game" onClick={()=>setOverlayDismissed(true)}>Retour au jeu</button>
       </div>
     </section>}
   </main>
